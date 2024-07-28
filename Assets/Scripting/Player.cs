@@ -8,7 +8,7 @@ public class Player : Object
     public int maxMag;
     public int Ammo;
     public float ShootSpeed;
-    public Rigidbody rb;
+    
     public ProjectTile texture;
 
     public void ClickShoot(){
@@ -37,4 +37,5 @@ public class Player : Object
             //Play sound bullet junk
         }
     }
+
 }
