@@ -11,7 +11,6 @@ public class Object : MonoBehaviour
     public float Resistance;
     public float Resist;
     public Rigidbody body;
-    private CharacterController m_CharacterController;
     
     public virtual void Move(){
         Debug.Log("Object moving");
@@ -20,18 +19,16 @@ public class Object : MonoBehaviour
     {
         if (gameObject.activeSelf)
         {
-            // Calculate the direction and magnitude of the pushback force
-            Vector3 angle = transform.position - source; // Reverse the direction for pushback
-            angle = angle.normalized * resist * (1 - Resistance); // Adjust for resistance
+            Vector3 angle = transform.position - source;
+            angle = angle.normalized * resist * (1 - Resistance);
 
-            // Apply the pushback force using Rigidbody
             body.MovePosition(body.transform.position + angle);
         }
     }
 
-    public void TakeDamage(Object source){
-       this.Health -= (source.Damage * (1- this.Ammor));
-       PushBack(source.Damage, source.transform.position, source.Resist);
+    public void TakeDamage(float damage, Vector3 position, float resist){
+       this.Health -= (damage * (1- this.Ammor));
+       PushBack(damage, position, resist);
        if (this.Health < 0){
             Destroy(this.gameObject);
        }

@@ -1,14 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectTile : MonoBehaviour
 {
-    public float speed = 700.0f;
-    public GameObject bullet;
-    void SpawnTile(Vector3 pos){
-        GameObject tile = Instantiate(bullet,pos, Quaternion.identity);
-        tile.GetComponent<Rigidbody>().AddRelativeForce(new Vector3 
-                                                (0, speed,0));
+
+    public float damage;
+    public float resist;
+    public GameObject bulletPrefab;
+    void OnTriggerEnter(Collider other)
+    {
+        if (other != null && other.name != "RigidBodyFPSController")
+        {
+            Object obj = other.gameObject.GetComponent<Object>();
+            if (obj != null)
+            {
+                Debug.Log(this.transform.position);
+                obj.TakeDamage(damage, this.transform.position, resist);
+            }
+            Destroy(gameObject);
+        }
     }
+
 }
