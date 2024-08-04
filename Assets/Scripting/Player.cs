@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class Player : Object
 {
@@ -13,11 +14,54 @@ public class Player : Object
     public TMP_Text mag_text;
     public TMP_Text ammo_text;
 
+    public Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        if (animator == null )
+        {
+            Debug.Log("cannot get animator");
+        }
+    }
+
     void Update()
     {
         mag_text.text = Mag.ToString();
         ammo_text.text = Ammo.ToString();
         ClickShoot();
+
+        // Update isShooting parameter based on input state
+        if (Input.GetKey(KeyCode.Mouse0) && Mag > 0)
+        {
+            animator.SetBool("firing_rifle", true);
+        }
+        else
+        {
+            animator.SetBool("firing_rifle", false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) // R to reload
+        {
+            StartCoroutine(ReloadCoroutine());
+        }
+    }
+
+    IEnumerator ReloadCoroutine()
+    {
+        animator.SetBool("reloading_rifle", true);
+
+        // Wait until the current animation is finished
+        yield return new WaitForSeconds(GetCurrentAnimationLength());
+
+        animator.SetBool("reloading_rifle", false);
+        Reload();
+    }
+
+    float GetCurrentAnimationLength()
+    {
+        AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        return animStateInfo.length;
     }
 
     public void ClickShoot()
@@ -29,10 +73,12 @@ public class Player : Object
                 nextShootTime = Time.time + ShootSpeed;
                 ShootProjectile();
                 Mag--;
+
+                animator.SetTrigger("firing_rifle");
             }
             else
             {
-                Reload();
+                StartCoroutine(ReloadCoroutine());
             }
         }
     }

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
+using System.Collections;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -19,6 +20,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
             [HideInInspector] public float CurrentTargetSpeed = 8f;
+            public string CurrentTargetAnimBool = "";
 
 #if !MOBILE_INPUT
             private bool m_Running;
@@ -44,7 +46,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 					CurrentTargetSpeed = ForwardSpeed;
 				}
 #if !MOBILE_INPUT
-	            if (Input.GetKey(RunKey))
+                if (Input.GetKey(RunKey))
 	            {
 		            CurrentTargetSpeed *= RunMultiplier;
 		            m_Running = true;
@@ -62,10 +64,59 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 get { return m_Running; }
             }
 #endif
+
+            public void UpdateDesiredTargetAnimBool(Vector2 input)
+            {
+                if (input == Vector2.zero) return;
+
+                if (Running)
+                {
+                    if (input.y == 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "run_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "run_left";
+                    }
+                    else if (input.y > 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "run_forward_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "run_forward_left";
+                        else if (input.x == 0) CurrentTargetAnimBool = "run_forward";
+                    }
+                    else if (input.y < 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "run_backward_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "run_backward_left";
+                        else if (input.x == 0) CurrentTargetAnimBool = "run_backward";
+                    }
+                }
+                else
+                {
+                    if (input.y == 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "walk_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "walk_left";
+                    }
+                    else if (input.y > 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "walk_forward_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "walk_forward_left";
+                        else if (input.x == 0) CurrentTargetAnimBool = "walk_forward";
+                    }
+                    else if (input.y < 0)
+                    {
+                        if (input.x > 0) CurrentTargetAnimBool = "walk_backward_right";
+                        else if (input.x < 0) CurrentTargetAnimBool = "walk_backward_left";
+                        else if (input.x == 0) CurrentTargetAnimBool = "walk_backward";
+                    }
+                }
+            }
         }
 
 
-        [Serializable]
+
+
+
+    [Serializable]
         public class AdvancedSettings
         {
             public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
@@ -88,6 +139,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_YRotation;
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
+
+        public Animator animator;
 
 
         public Vector3 Velocity
@@ -123,6 +176,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init (transform, cam.transform);
+
+            Camera.main.nearClipPlane = 0.01f;  // Adjust this value as needed
         }
 
 
@@ -156,6 +211,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 {
                     m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
                 }
+
+                MovementCoroutine(movementSettings.CurrentTargetAnimBool);
             }
 
             if (m_IsGrounded)
@@ -185,6 +242,23 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Jump = false;
         }
+
+        IEnumerator MovementCoroutine(string AnimBool)
+        {
+            animator.SetBool(AnimBool, true);
+
+            // Wait until the current animation is finished
+            yield return new WaitForSeconds(GetCurrentAnimationLength());
+
+            animator.SetBool(AnimBool, false);
+        }
+
+        float GetCurrentAnimationLength()
+        {
+            AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            return animStateInfo.length;
+        }
+
 
 
         private float SlopeMultiplier()
@@ -218,6 +292,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     y = CrossPlatformInputManager.GetAxis("Vertical")
                 };
 			movementSettings.UpdateDesiredTargetSpeed(input);
+            movementSettings.UpdateDesiredTargetAnimBool(input);
             return input;
         }
 
