@@ -24,6 +24,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 #if !MOBILE_INPUT
             private bool m_Running;
+            public Animator animator;
 #endif
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
@@ -67,47 +68,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             public void UpdateDesiredTargetAnimBool(Vector2 input)
             {
-                if (input == Vector2.zero) return;
-
-                if (Running)
-                {
-                    if (input.y == 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "run_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "run_left";
-                    }
-                    else if (input.y > 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "run_forward_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "run_forward_left";
-                        else if (input.x == 0) CurrentTargetAnimBool = "run_forward";
-                    }
-                    else if (input.y < 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "run_backward_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "run_backward_left";
-                        else if (input.x == 0) CurrentTargetAnimBool = "run_backward";
-                    }
-                }
-                else
-                {
-                    if (input.y == 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "walk_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "walk_left";
-                    }
-                    else if (input.y > 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "walk_forward_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "walk_forward_left";
-                        else if (input.x == 0) CurrentTargetAnimBool = "walk_forward";
-                    }
-                    else if (input.y < 0)
-                    {
-                        if (input.x > 0) CurrentTargetAnimBool = "walk_backward_right";
-                        else if (input.x < 0) CurrentTargetAnimBool = "walk_backward_left";
-                        else if (input.x == 0) CurrentTargetAnimBool = "walk_backward";
-                    }
+                Debug.Log(input);
+                if (input == Vector2.zero) { animator.SetBool("isMove", false); }
+                else{
+                    animator.SetBool("isMove", true);
+                    animator.SetFloat("x",input.x);
+                    animator.SetFloat("y",input.y);
+                    animator.SetBool("isRun", Running);
                 }
             }
         }
@@ -140,7 +107,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 
-        public Animator animator;
+        
 
 
         public Vector3 Velocity
@@ -196,7 +163,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             GroundCheck();
             Vector2 input = GetInput();
-
+            
             if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
             {
                 // always move along the camera forward as it is the direction that it being aimed at
@@ -212,7 +179,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_RigidBody.AddForce(desiredMove*SlopeMultiplier(), ForceMode.Impulse);
                 }
 
-                MovementCoroutine(movementSettings.CurrentTargetAnimBool);
             }
 
             if (m_IsGrounded)
@@ -242,24 +208,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Jump = false;
         }
-
-        IEnumerator MovementCoroutine(string AnimBool)
-        {
-            animator.SetBool(AnimBool, true);
-
-            // Wait until the current animation is finished
-            yield return new WaitForSeconds(GetCurrentAnimationLength());
-
-            animator.SetBool(AnimBool, false);
-        }
-
-        float GetCurrentAnimationLength()
-        {
-            AnimatorStateInfo animStateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            return animStateInfo.length;
-        }
-
-
 
         private float SlopeMultiplier()
         {

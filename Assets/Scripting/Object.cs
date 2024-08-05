@@ -22,7 +22,7 @@ public class Object : MonoBehaviour
             Vector3 angle = transform.position - source;
             angle = angle.normalized * resist * (1 - Resistance);
 
-            body.MovePosition(body.transform.position + angle);
+            body.AddForce(angle*4);
         }
     }
 

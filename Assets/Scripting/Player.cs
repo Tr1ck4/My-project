@@ -50,11 +50,10 @@ public class Player : Object
     IEnumerator ReloadCoroutine()
     {
         animator.SetBool("reloading_rifle", true);
-
         // Wait until the current animation is finished
         yield return new WaitForSeconds(GetCurrentAnimationLength());
-
         animator.SetBool("reloading_rifle", false);
+
         Reload();
     }
 
