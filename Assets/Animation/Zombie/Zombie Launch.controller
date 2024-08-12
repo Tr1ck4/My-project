@@ -235,7 +235,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: dance
+  m_Name: attack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -250,7 +250,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 82bdee7d1c32b6a4aa7635008b10b471, type: 3}
+  m_Motion: {fileID: -203655887218126122, guid: 122e7c0781334be468de24f9acc210c6, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
