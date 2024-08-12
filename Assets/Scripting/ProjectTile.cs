@@ -13,7 +13,6 @@ public class ProjectTile : MonoBehaviour
             Object obj = other.gameObject.GetComponent<Object>();
             if (obj != null)
             {
-                Debug.Log(this.transform.position);
                 obj.TakeDamage(damage, this.transform.position, resist);
             }
             Destroy(gameObject);

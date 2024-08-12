@@ -49,12 +49,30 @@ public class Player : Object
 
     IEnumerator ReloadCoroutine()
     {
-        animator.SetBool("reloading_rifle", true);
+        if (Ammo > 0 && Mag < maxMag)
+        {
+            animator.SetBool("reloading_rifle", true);
+        }
+        
         // Wait until the current animation is finished
         yield return new WaitForSeconds(GetCurrentAnimationLength());
+        if (Ammo > 0 && Mag < maxMag)
+        {
+            int ammoNeeded = maxMag - Mag;
+            
+            if (Ammo >= ammoNeeded)
+            {
+                Mag = maxMag;
+                Ammo -= ammoNeeded;
+            }
+            else
+            {
+                Mag += Ammo;
+                Ammo = 0;
+            }
+            nextShootTime += 2.0f;
+        }
         animator.SetBool("reloading_rifle", false);
-
-        Reload();
     }
 
     float GetCurrentAnimationLength()
@@ -103,24 +121,5 @@ public class Player : Object
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = direction * bulletSpeed;
         
-    }
-
-    void Reload()
-    {
-        if (Ammo > 0)
-        {
-            int ammoNeeded = maxMag - Mag;
-            if (Ammo >= ammoNeeded)
-            {
-                Mag = maxMag;
-                Ammo -= ammoNeeded;
-            }
-            else
-            {
-                Mag += Ammo;
-                Ammo = 0;
-            }
-            nextShootTime += 2.0f;//change into an IEnumerator
-        }
     }
 }
