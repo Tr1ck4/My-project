@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d705c2d701a56442aaa3de56954855f, type: 3}
   m_Name: WeaponDatabase
   m_EditorClassIdentifier: 
-  weaponList: []
+  weaponList:
+  - maxMag: 0
+    Ammo: 0
+    ShootSpeed: 0
+    bulletSpeed: 0
+    bulletPrefab: {fileID: 0}
+    weaponPrefab: {fileID: 0}

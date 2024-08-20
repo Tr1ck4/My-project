@@ -12,4 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3356e22a0a38a1443a9d2dfbe388b1c2, type: 3}
   m_Name: ZombieDatabase
   m_EditorClassIdentifier: 
-  zombieList: []
+  zombieList:
+  - ZombieName: 
+    Health: 0
+    Damage: 0
+    Speed: 0
+    Resist: 0
+    Resistance: 0
+    zombiePrefab: {fileID: 0}
