@@ -68,7 +68,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             public void UpdateDesiredTargetAnimBool(Vector2 input)
             {
-                Debug.Log(input);
                 if (input == Vector2.zero) { animator.SetBool("isMove", false); }
                 else{
                     animator.SetBool("isMove", true);
