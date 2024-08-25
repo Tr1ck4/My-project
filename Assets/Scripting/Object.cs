@@ -8,29 +8,18 @@ public class Object : MonoBehaviour
     public float Speed;
     public float Ammor;
     public float Damage;
-    public float Resistance;
-    public float Resist;
     public Rigidbody body;
     
     public virtual void Move(){
         Debug.Log("Object moving");
     }
-    public void PushBack(float damage, Vector3 source, float resist)
-    {
-        if (gameObject.activeSelf)
-        {
-            Vector3 angle = transform.position - source;
-            angle = angle.normalized * resist * (1 - Resistance);
-
-            body.AddForce(angle*4);
+    public void TakeDamage(float amount){
+        Health -= amount*(1-Ammor/100);
+        if (Health <= 0f){
+            Die();
         }
     }
-
-    public void TakeDamage(float damage, Vector3 position, float resist){
-       this.Health -= (damage * (1- this.Ammor));
-       PushBack(damage, position, resist);
-       if (this.Health < 0){
-            Destroy(this.gameObject);
-       }
+    void Die(){
+        Destroy(gameObject);
     }
 }

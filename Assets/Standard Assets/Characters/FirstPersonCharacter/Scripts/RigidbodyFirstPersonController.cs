@@ -20,7 +20,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
             [HideInInspector] public float CurrentTargetSpeed = 8f;
-            public string CurrentTargetAnimBool = "";
 
 #if !MOBILE_INPUT
             private bool m_Running;
@@ -65,17 +64,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 get { return m_Running; }
             }
 #endif
-
-            public void UpdateDesiredTargetAnimBool(Vector2 input)
-            {
-                if (input == Vector2.zero) { animator.SetBool("isMove", false); }
-                else{
-                    animator.SetBool("isMove", true);
-                    animator.SetFloat("x",input.x);
-                    animator.SetFloat("y",input.y);
-                    animator.SetBool("isRun", Running);
-                }
-            }
         }
 
 
@@ -239,7 +227,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     y = CrossPlatformInputManager.GetAxis("Vertical")
                 };
 			movementSettings.UpdateDesiredTargetSpeed(input);
-            movementSettings.UpdateDesiredTargetAnimBool(input);
             return input;
         }
 

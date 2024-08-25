@@ -13,9 +13,17 @@ MonoBehaviour:
   m_Name: WeaponDatabase
   m_EditorClassIdentifier: 
   weaponList:
-  - maxMag: 0
-    Ammo: 0
-    ShootSpeed: 0
-    bulletSpeed: 0
-    bulletPrefab: {fileID: 0}
-    weaponPrefab: {fileID: 0}
+  - weaponName: G17
+    damage: 10
+    maxMag: 6
+    Ammo: 16
+    ShootSpeed: 1
+    range: 80
+    weaponPrefab: {fileID: 7133336745682130024, guid: 76114a16673c2904cb2cb7053a3ddc10, type: 3}
+  - weaponName: M4
+    damage: 8
+    maxMag: 30
+    Ammo: 60
+    ShootSpeed: 10
+    range: 100
+    weaponPrefab: {fileID: 5559442646728411565, guid: 38c96234ac22ee04697a4f3604688996, type: 3}
