@@ -220,7 +220,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -324,6 +324,7 @@ MonoBehaviour:
   inventory:
   - weaponName: M4
     damage: 8
+    Mag: 0
     maxMag: 30
     Ammo: 100
     ShootSpeed: 10
@@ -471,8 +472,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 664.2969, y: 114}
-  m_SizeDelta: {x: 336.9286, y: 71.4388}
+  m_AnchoredPosition: {x: 733.85, y: 231.5}
+  m_SizeDelta: {x: 235.9258, y: 50.0223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &541361822
 MonoBehaviour:
@@ -923,6 +924,71 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 472797700}
   m_SourcePrefab: {fileID: 100100000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
+--- !u!1001 &1106303723
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.255
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.235
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 496896172830871469, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4609724390073608650, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_Name
+      value: AmmoBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 4946412721466114198, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_TagString
+      value: AmmoBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662444219711371126, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fe9754794c1d26f4b8836e1cf3630d77, type: 3}
 --- !u!1 &1179114096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,8 +1203,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 667, y: 337}
-  m_SizeDelta: {x: 511.4904, y: 160.4644}
+  m_AnchoredPosition: {x: 769.02734, y: 369.00793}
+  m_SizeDelta: {x: 307.4358, y: 96.4485}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1207415757
 MonoBehaviour:
@@ -1375,8 +1441,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 576, y: 9}
-  m_SizeDelta: {x: 176.5739, y: 82.5227}
+  m_AnchoredPosition: {x: 669.66, y: 172.1}
+  m_SizeDelta: {x: 107.5443, y: 50.261}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1694407571
 MonoBehaviour:
@@ -1447,8 +1513,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 598, y: 199}
-  m_SizeDelta: {x: 204.3348, y: 71.4388}
+  m_AnchoredPosition: {x: 686.5, y: 289.1}
+  m_SizeDelta: {x: 141.2312, y: 49.3767}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1777102999
 MonoBehaviour:
@@ -1587,7 +1653,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 399.00006, y: -191}
+  m_AnchoredPosition: {x: 390.9, y: -189}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1865187129
@@ -1614,8 +1680,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1675,7 +1741,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 120.03152, w: 0}
+  m_margin: {x: 0, y: 0, z: 100.81994, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1747,3 +1813,4 @@ SceneRoots:
   - {fileID: 1206725388}
   - {fileID: 1842792913}
   - {fileID: 2039726135}
+  - {fileID: 1106303723}
