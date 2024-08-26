@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Player : Object
@@ -51,11 +52,20 @@ public class Player : Object
         gun.Ammo = weapon.Ammo;
     }
 
-    public void AddAmmo(int amount)
+    public void AddAmmo()
     {
         if (inventory.Count > 0)
         {
-            inventory[currentWeaponIndex].Ammo += amount;
+            for(int i = 0; i < inventory.Count; i++){
+                for(int j = 0 ; j < weaponDB.weaponList.Count; j++){
+                    if (inventory[i].weaponName == weaponDB.weaponList[j].weaponName){
+                        inventory[i].Ammo = weaponDB.weaponList[j].Ammo;
+                        Gun gun = GameObject.FindObjectOfType<Gun>();
+                        gun.Ammo = inventory[currentWeaponIndex].Ammo;
+                        Debug.Log("Weapon " + weaponDB.weaponList[j].Ammo +  "Inventory" + inventory[i].Ammo);
+                    }
+                }
+            }
         }
     }
 
@@ -75,4 +85,12 @@ public class Player : Object
             currentWeapon.Ammo = currentGun.Ammo;
         }
     }
+    void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Coliding with " + other.gameObject.tag);
+        if (other.gameObject.tag == "AmmoBox"){
+            AddAmmo();
+        }
+    }
+
 }
