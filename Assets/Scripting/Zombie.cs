@@ -5,7 +5,6 @@ using UnityEngine;
 public class Zombie : Object
 {
     public Player player;
-    public bool isTargetable = true;
     public Animator animator;
 
     private bool isAttacking = false;
@@ -25,7 +24,8 @@ public class Zombie : Object
         {
             Vector3 direction = distance.normalized;
             direction.y = 0;
-            transform.position += direction * Speed * Time.deltaTime;
+            this.body.AddForce(direction, ForceMode.Impulse);
+            //transform.position += direction * Speed * Time.deltaTime;
 
             if (direction != Vector3.zero)
             {
