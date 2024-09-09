@@ -6,6 +6,8 @@ public class Zombie : Object
 {
     public Player player;
     public Animator animator;
+    public Rigidbody body;
+    public float RotationSpeed = 5f; // Speed for rotating towards the player
 
     private bool isAttacking = false;
     void Start(){
@@ -22,11 +24,12 @@ public class Zombie : Object
         Vector3 distance = player.transform.position - transform.position;
         if (distance.magnitude > 2f)
         {
+            Debug.Log("Walking");
             Vector3 direction = distance.normalized;
             direction.y = 0;
-            this.body.AddForce(direction, ForceMode.Impulse);
-            //transform.position += direction * Speed * Time.deltaTime;
+            transform.position += direction * Speed * Time.deltaTime;
 
+            // Rotate the zombie to face the movement direction
             if (direction != Vector3.zero)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * Speed);
