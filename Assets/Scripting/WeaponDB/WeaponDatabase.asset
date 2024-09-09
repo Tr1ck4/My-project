@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d705c2d701a56442aaa3de56954855f, type: 3}
+  m_Name: WeaponDatabase
+  m_EditorClassIdentifier: 
+  weaponList:
+  - weaponName: G17
+    damage: 12
+    Mag: 6
+    maxMag: 6
+    Ammo: 16
+    ShootSpeed: 1
+    range: 80
+    weaponPrefab: {fileID: 7133336745682130024, guid: 76114a16673c2904cb2cb7053a3ddc10, type: 3}
+  - weaponName: Desert Eagle
+    damage: 14
+    Mag: 7
+    maxMag: 7
+    Ammo: 20
+    ShootSpeed: 3
+    range: 100
+    weaponPrefab: {fileID: 1896349989204973252, guid: 9987051df59074848aa8908be9670890, type: 3}
+  - weaponName: G14
+    damage: 20
+    Mag: 8
+    maxMag: 8
+    Ammo: 30
+    ShootSpeed: 1.2
+    range: 100
+    weaponPrefab: {fileID: 1785435777294800262, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+  - weaponName: M4
+    damage: 8
+    Mag: 0
+    maxMag: 30
+    Ammo: 60
+    ShootSpeed: 10
+    range: 100
+    weaponPrefab: {fileID: 5559442646728411565, guid: 38c96234ac22ee04697a4f3604688996, type: 3}
+  - weaponName: M416
+    damage: 9
+    Mag: 30
+    maxMag: 30
+    Ammo: 60
+    ShootSpeed: 12
+    range: 120
+    weaponPrefab: {fileID: 4790321107070263294, guid: cac4009e596e70b4d872ed77341c039b, type: 3}
+  - weaponName: M4A4
+    damage: 10
+    Mag: 40
+    maxMag: 40
+    Ammo: 100
+    ShootSpeed: 15
+    range: 120
+    weaponPrefab: {fileID: 3157565929852043342, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}

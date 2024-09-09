@@ -63,6 +63,6 @@ public class Zombie : Object
     {
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0;
-        player.TakeDamage(this.Damage, this.transform.position, this.Resist);
+        player.TakeDamage(this.Damage);
     }
 }
