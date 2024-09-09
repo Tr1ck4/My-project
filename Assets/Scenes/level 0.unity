@@ -4104,11 +4104,11 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: d9c7534d5853252468bdd069576c9594, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 50
-  m_TreeCrossFadeLength: 5
+  m_TreeDistance: 20
+  m_TreeBillboardDistance: 20
+  m_TreeCrossFadeLength: 10
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 20
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -8419,8 +8419,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828171152}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0059703267, y: 0.99407434, z: 0.079499744, w: -0.07389427}
-  m_LocalPosition: {x: 121.37172, y: 5.1901608, z: 962.4136}
+  m_LocalRotation: {x: 0.032184128, y: 0.9671447, z: 0.15835923, w: -0.1962592}
+  m_LocalPosition: {x: 129.1433, y: 4.3595505, z: 971.26086}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14973,8 +14973,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339203800}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0059703267, y: 0.99407434, z: 0.079499744, w: -0.07389427}
-  m_LocalPosition: {x: 121.37172, y: 5.1901608, z: 1868.8136}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
+  m_LocalPosition: {x: 130.952, y: 4.4299984, z: 1876.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
