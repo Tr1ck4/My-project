@@ -2498,7 +2498,7 @@ GameObject:
   - component: {fileID: 7589517693991116510}
   m_Layer: 0
   m_Name: male-fit-zombie
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2562,6 +2562,7 @@ MonoBehaviour:
   Damage: 0
   body: {fileID: 1042835435631177522}
   player: {fileID: 0}
+  playerGO: {fileID: 0}
   isTargetable: 1
   animator: {fileID: 2569952396045669699}
 --- !u!54 &1042835435631177522

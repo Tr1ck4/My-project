@@ -20,6 +20,14 @@ public class Object : MonoBehaviour
         }
     }
     void Die(){
-        Destroy(gameObject);
+        if (gameObject.tag == "Zombie")
+        {
+            gameObject.GetComponent<Zombie>().ZombieDie();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
     }
 }

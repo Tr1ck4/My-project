@@ -13,6 +13,7 @@ public class Zombie : Object
     void Start(){
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
+        animator.SetBool("isDead", false);
 
         // Find the player GameObject by tag
         if (playerGO == null)
@@ -34,7 +35,7 @@ public class Zombie : Object
     public override void Move()
     {
         Vector3 distance = player.transform.position - transform.position;
-        if (distance.magnitude > 2f)
+        if (distance.magnitude > 2f && animator.GetBool("isDead") == false)
         {
             Vector3 direction = distance.normalized;
             direction.y = 0;
@@ -77,5 +78,19 @@ public class Zombie : Object
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0;
         player.TakeDamage(this.Damage);
+    }
+
+    IEnumerator DieRoutine()
+    {
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isNear", false);
+        animator.SetBool("isDead", true);
+        yield return new WaitForSeconds(6f);
+        Destroy(transform.gameObject);
+    }
+
+    public void ZombieDie()
+    {
+        StartCoroutine(DieRoutine());
     }
 }

@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 8999693085645746339}
   m_Layer: 0
   m_Name: female-skinny-zombie
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
