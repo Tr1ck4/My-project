@@ -5,6 +5,7 @@ using UnityEngine;
 public class Zombie : Object
 {
     public Player player;
+    public GameObject playerGO;
     public bool isTargetable = true;
     public Animator animator;
 
@@ -12,6 +13,18 @@ public class Zombie : Object
     void Start(){
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
+
+        // Find the player GameObject by tag
+        if (playerGO == null)
+        {
+            playerGO = GameObject.FindWithTag("Player");  // Find player GameObject
+        }
+
+        // Get the Player script attached to the player GameObject
+        if (playerGO != null)
+        {
+            player = playerGO.GetComponent<Player>();
+        }
     }
     void Update()
     {
