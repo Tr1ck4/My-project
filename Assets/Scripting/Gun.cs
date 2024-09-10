@@ -55,7 +55,7 @@ public class Gun : MonoBehaviour
         if (Input.GetButton("Fire1") && Time.time >= nextTime){
             nextTime = Time.time +1f/fireRate;
             if(Mag > 0){Shoot();}
-            else{StartCoroutine(ReloadCoroutine());}
+            else{ if(!isReloading) StartCoroutine(ReloadCoroutine());}
         }
         if (Input.GetKeyDown(KeyCode.R) && !isReloading){
             StartCoroutine(ReloadCoroutine());
