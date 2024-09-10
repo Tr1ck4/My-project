@@ -5,7 +5,6 @@ using UnityEngine;
 public class Zombie : Object
 {
     public Player player;
-    public GameObject playerGO;
     public bool isTargetable = true;
     public Animator animator;
     public float RotationSpeed = 5f; // Speed for rotating towards the player
@@ -16,17 +15,11 @@ public class Zombie : Object
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", false);
 
-        // Find the player GameObject by tag
-        if (playerGO == null)
+        if (player == null)
         {
-            playerGO = GameObject.FindWithTag("Player");  // Find player GameObject
+            player = GameObject.Find("Player").GetComponent<Player>();
         }
 
-        // Get the Player script attached to the player GameObject
-        if (playerGO != null)
-        {
-            player = playerGO.GetComponent<Player>();
-        }
     }
     void Update()
     {
