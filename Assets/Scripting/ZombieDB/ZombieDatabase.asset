@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: ZombieDatabase
   m_EditorClassIdentifier: 
   zombieList:
-  - ZombieName: 
-    Health: 0
-    Damage: 0
+  - ZombieName: Normal
+    Health: 50
+    Damage: 5
     Speed: 0
     Resist: 0
     Resistance: 0
-    zombiePrefab: {fileID: 0}
+    zombiePrefab: {fileID: 9079734511825769859, guid: 2a48789f18074ec4eb28dd625e11e677, type: 3}
+  - ZombieName: Fast
+    Health: 100
+    Damage: 10
+    Speed: 0
+    Resist: 0
+    Resistance: 0
+    zombiePrefab: {fileID: 1397616753976370586, guid: e934af1f9812c1745a0348f2d8b3090c, type: 3}
