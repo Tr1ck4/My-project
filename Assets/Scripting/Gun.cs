@@ -69,7 +69,6 @@ public class Gun : MonoBehaviour
         Mag-=1;
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range)){
-            Debug.Log(hit.transform.name);
             Object target = hit.transform.GetComponent<Object>();
             if (target != null){
                 target.TakeDamage(damage);

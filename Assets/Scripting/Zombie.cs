@@ -6,7 +6,6 @@ public class Zombie : Object
 {
     public Player player;
     public Animator animator;
-    public Rigidbody body;
     public float RotationSpeed = 5f; // Speed for rotating towards the player
 
     private bool isAttacking = false;

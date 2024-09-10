@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Player : Object
 {
@@ -8,6 +9,7 @@ public class Player : Object
     public int currentWeaponIndex = 0;
     public Transform mainCameraTransform;
     public WeaponDatabase weaponDB;
+    public TMP_Text healthText;
 
     void Start()
     {
@@ -24,6 +26,7 @@ public class Player : Object
         {
             SwitchWeapon();
         }
+        healthText.text = this.Health.ToString();
     }
 
     void SwitchWeapon()
@@ -87,7 +90,6 @@ public class Player : Object
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Coliding with " + other.gameObject.tag);
         if (other.gameObject.tag == "AmmoBox"){
             AddAmmo();
         }
