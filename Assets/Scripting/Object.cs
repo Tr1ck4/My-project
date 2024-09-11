@@ -9,12 +9,16 @@ public class Object : MonoBehaviour
     public float Ammor;
     public float Damage;
     public Rigidbody body;
-    
+
     public virtual void Move(){
         Debug.Log("Object moving");
     }
     public void TakeDamage(float amount){
         Health -= amount*(1-Ammor/100);
+        if (gameObject.tag == "Zombie")
+        {
+            gameObject.GetComponent<Zombie>().OnShot(transform.position, transform.rotation);
+        }
         if (Health <= 0f){
             Die();
         }

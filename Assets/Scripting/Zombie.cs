@@ -10,6 +10,13 @@ public class Zombie : Object
     public Animator animator;
 
     private bool isAttacking = false;
+
+    // Array or List of blood splatter prefabs
+    public GameObject[] bloodSplatterPrefabs;
+
+    // Time before the blood splatter disappears
+    public float splatterLifetime = 5f;
+
     void Start(){
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
@@ -78,6 +85,25 @@ public class Zombie : Object
         Vector3 direction = (player.transform.position - transform.position).normalized;
         direction.y = 0;
         player.TakeDamage(this.Damage);
+    }
+
+    public virtual void OnShot(Vector3 hitPosition, Quaternion hitRotation)
+    {
+        // Select a random blood splatter decal
+        GameObject bloodSplatter = bloodSplatterPrefabs[Random.Range(0, bloodSplatterPrefabs.Length)];
+
+        // Instantiate the blood splatter at the hit position
+        GameObject instantiatedSplatter = Instantiate(bloodSplatter, hitPosition, hitRotation);
+
+        // Start coroutine to destroy the splatter after the set lifetime
+        StartCoroutine(RemoveSplatterAfterTime(instantiatedSplatter, splatterLifetime));
+    }
+
+    // Coroutine to destroy the blood splatter after a set time
+    IEnumerator RemoveSplatterAfterTime(GameObject splatter, float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(splatter);
     }
 
     IEnumerator DieRoutine()
