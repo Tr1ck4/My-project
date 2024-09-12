@@ -3875,9 +3875,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598535164}
   serializedVersion: 4
-  m_Mass: 10
-  m_Drag: 10
-  m_AngularDrag: 0.05
+  m_Mass: 100
+  m_Drag: 100
+  m_AngularDrag: 100
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -3890,7 +3890,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -3901,7 +3901,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598535164}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -3911,7 +3911,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 1.96
@@ -3929,22 +3929,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc04b76be38d0443a6e2e44f7c461e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Health: 1000
+  Speed: 7
+  Ammor: 0
+  Damage: 0
+  body: {fileID: 598535168}
+  aggroRange: 20
+  meleeRange: 2
   player: {fileID: 0}
   playerGO: {fileID: 0}
   animator: {fileID: 598535165}
-  swipingCooldown: 3
-  jumpAttackCooldown: 10
   punchAttackDamage: 20
   swipeAttackDamage: 30
   jumpAttackDamage: 50
-  Speed: 4
-  isAggro: 0
-  isRoaring: 0
-  isPunching: 0
-  isSwiping: 0
-  isJumpAttacking: 0
-  lastSwipeTime: 0
-  lastJumpAttackTime: 0
 --- !u!64 &598535171
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -3952,7 +3949,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598535164}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -15005,6 +15002,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 464a92cb10d524d469e01d8d5406f9f0, type: 2}
+    - target: {fileID: 5866666021909216657, guid: 40e577b24be55324ca23639021cf0a38, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

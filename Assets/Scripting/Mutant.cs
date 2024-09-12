@@ -7,7 +7,7 @@ public class MutantZombie : Object
 {
 
     public float aggroRange = 20f;
-    public float meleeRange = 4f;
+    public float meleeRange = 2f;
 
     public Player player;
     public GameObject playerGO;
@@ -19,12 +19,6 @@ public class MutantZombie : Object
 
     private bool isAttacking = false;
     private bool isAggro = false;
-    private bool isPunching = false;
-    private bool isSwiping = false;
-    private bool isJumpAttacking = false;
-
-    private float lastSwipeTime = 0f;
-    private float lastJumpAttackTime = 0f;
 
     void Start()
     {
@@ -74,25 +68,26 @@ public class MutantZombie : Object
                 isAggro = true;
                 MutantRoar();
             }
-            animator.SetBool("isIdle", false);
-            animator.SetBool("inAttackingStance", false);
 
-            // Wait for Mutant finishes roaring
+            // Wait for Mutant finishes
             AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
             if (
                 (
                     stateInfo.IsName("Roaring") ||
-                    stateInfo.IsName("isPunching") ||
-                    stateInfo.IsName("isSwiping") ||
-                    stateInfo.IsName("isJumpAttacking")
+                    stateInfo.IsName("Punch") ||
+                    stateInfo.IsName("Swiping") ||
+                    stateInfo.IsName("Jump Attack") ||
+                    stateInfo.IsName("Attacking Stance")
                 )
                 && stateInfo.normalizedTime < 1.0f)
             {
-                // Roar is still playing, so return and don't move yet
+                Debug.Log("mutant current anim not finished " + stateInfo.ToString() );
                 return;
             }
 
             // Roar finished,start chasing Player
+            animator.SetBool("isIdle", false);
+            animator.SetBool("inAttackingStance", false);
             animator.SetBool("isRunning", true);
 
             Vector3 direction = distance.normalized;
@@ -104,9 +99,24 @@ public class MutantZombie : Object
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * Speed);
             }
         }
-        else if (distance.magnitude <= meleeRange) // in range of melee attacks (punching, swiping)
+        else if (distance.magnitude <= meleeRange) // in range of attacks
         {
             animator.SetBool("inAttackingStance", true);
+            animator.SetBool("isRunning", false);
+
+            // Wait for Mutant finishes
+            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+            if (
+                (
+                    stateInfo.IsName("Roaring") ||
+                    stateInfo.IsName("Punch") ||
+                    stateInfo.IsName("Swiping") ||
+                    stateInfo.IsName("Jump Attack")
+                )
+                && stateInfo.normalizedTime < 1.0f)
+            {
+                return;
+            }
 
             if (!isAttacking)
             {
@@ -125,6 +135,7 @@ public class MutantZombie : Object
     enum AttackType { JumpAttack, SwipeAttack, PunchAttack }
     void PerformRandomAttack()
     {
+        if (isAttacking) return;
         // Get a random attack type
         AttackType attackType = (AttackType)Random.Range(0, 3);  // Randomly select an attack (0 = Jump, 1 = Swipe, 2 = Punch)
 
@@ -132,26 +143,17 @@ public class MutantZombie : Object
         {
             case AttackType.JumpAttack:
                 Debug.Log("Random attack: " +  attackType);
-                if (!isJumpAttacking)  // Optional check to ensure the mutant is not already jumping
-                {
-                    StartCoroutine(JumpAttackRoutine());
-                }
+                StartCoroutine(JumpAttackRoutine());
                 break;
 
             case AttackType.SwipeAttack:
                 Debug.Log("Random attack: " + attackType);
-                if (!isSwiping)  // Optional check to ensure the mutant is not already swiping
-                {
-                    StartCoroutine(SwipeAttackRoutine());
-                }
+                StartCoroutine(SwipeAttackRoutine());
                 break;
 
             case AttackType.PunchAttack:
                 Debug.Log("Random attack: " + attackType);
-                if (!isPunching)  // Optional check to ensure the mutant is not already punching
-                {
-                    StartCoroutine(PunchAttackRoutine());
-                }
+                StartCoroutine(PunchAttackRoutine());
                 break;
         }
     }
@@ -160,7 +162,6 @@ public class MutantZombie : Object
     IEnumerator PunchAttackRoutine()
     {
         isAttacking = true;
-        isPunching = true;
         animator.SetBool("isPunching", true);
 
         yield return new WaitForSeconds(1f);
@@ -170,7 +171,6 @@ public class MutantZombie : Object
             player.TakeDamage(punchAttackDamage);
         }
         animator.SetBool("isPunching", false);
-        isPunching = false;
         isAttacking = false;
     }
 
@@ -178,7 +178,6 @@ public class MutantZombie : Object
     IEnumerator SwipeAttackRoutine()
     {
         isAttacking = true;
-        isSwiping = true;
         animator.SetBool("isSwiping", true);
 
 
@@ -189,7 +188,6 @@ public class MutantZombie : Object
             player.TakeDamage(swipeAttackDamage);
         }
         animator.SetBool("isSwiping", false);
-        isSwiping = false;
         isAttacking = false;
     }
 
@@ -197,17 +195,47 @@ public class MutantZombie : Object
     IEnumerator JumpAttackRoutine()
     {
         isAttacking = true;
-        isJumpAttacking = true;
         animator.SetBool("isJumpAttacking", true);
 
-        yield return new WaitForSeconds(3f);
+        // Wait for the point in the animation where the jump starts
+        yield return new WaitForSeconds(0.6f);  // Adjust this based on the animation timing
+
+        // Define jump parameters
+        Vector3 startPosition = transform.position;
+        Vector3 targetPosition = player.transform.position;  // Target position (player's position)
+
+        // Calculate jump distance and height
+        float jumpDistance = Vector3.Distance(startPosition, new Vector3(targetPosition.x, startPosition.y, targetPosition.z));
+        float jumpHeight = 3f;  // Height of the jump (adjust as needed)
+        float jumpDuration = 1f;  // Duration of the jump
+
+        float elapsedTime = 0f;
+
+        while (elapsedTime < jumpDuration)
+        {
+            float progress = elapsedTime / jumpDuration;
+
+            // Calculate the current position
+            Vector3 forwardPosition = Vector3.Lerp(startPosition, new Vector3(targetPosition.x, startPosition.y, targetPosition.z), progress);
+            float heightOffset = Mathf.Sin(Mathf.PI * progress) * jumpHeight;
+
+            // Set the new position
+            transform.position = new Vector3(forwardPosition.x, startPosition.y + heightOffset, forwardPosition.z);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;  // Wait for the next frame
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        // Ensure the final position is exactly at the target position
+        transform.position = new Vector3(targetPosition.x, startPosition.y, targetPosition.z);
 
         if (Vector3.Distance(player.transform.position, transform.position) <= 6f)
         {
             player.TakeDamage(jumpAttackDamage);
         }
         animator.SetBool("isJumpAttacking", false);
-        isJumpAttacking = false;
         isAttacking = false;
     }
 
