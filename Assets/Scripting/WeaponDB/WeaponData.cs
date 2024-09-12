@@ -10,9 +10,10 @@ public class WeaponData
     public float ShootSpeed;
     public float range;
 
-    public int price;
+    public float price;
     public float updateCost; 
     public GameObject weaponPrefab;
     public Sprite weaponImage;
 
+    public bool isSold = false;
 }

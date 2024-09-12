@@ -14,14 +14,12 @@ public class Player : Object
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
-        if (inventory.Count < 2) {
-            inventory.Add(weaponDB.weaponList[0]);
-        }
         EquipWeapon(inventory[currentWeaponIndex]);
     }
 
     void Update()
     {
+        inventory = GameObject.Find("GameController").GetComponent<PlayerData>().inventory;
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SwitchWeapon();
@@ -69,14 +67,6 @@ public class Player : Object
                     }
                 }
             }
-        }
-    }
-
-    public void AddWeapon(WeaponData newWeapon)
-    {
-        if (!inventory.Contains(newWeapon) && inventory.Count < 2)
-        {
-            inventory.Add(newWeapon);
         }
     }
 
