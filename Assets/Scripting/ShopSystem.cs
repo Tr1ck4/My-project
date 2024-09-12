@@ -14,6 +14,7 @@ public class WeaponDatabaseWrapper
 
 public class ShopSystem : MonoBehaviour
 {
+    private ShopSystem instance;
     public WeaponDatabase weaponDatabase; 
     private WeaponDatabase database;
     public GameObject weaponPrefab;       
@@ -25,7 +26,17 @@ public class ShopSystem : MonoBehaviour
     public float money;            
 
     private int currentPageIndex = 0;      
-    private int totalPages;                
+    private int totalPages; 
+
+    void Awake(){
+        if( instance == null ){
+            instance = this.instance;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else{
+            Destroy(gameObject);
+        }
+    }               
 
     void Start()
     {
@@ -129,4 +140,15 @@ public class ShopSystem : MonoBehaviour
         database.weaponList = databaseWrapper.weaponList;
         this.money = databaseWrapper.money;
     }
+
+    public void FreshData()
+    {   
+        database = ScriptableObject.CreateInstance<WeaponDatabase>();
+        database.weaponList = weaponDatabase.weaponList;
+        this.money = 200;
+        SaveData();
+    }
+
+
+
 }

@@ -13,6 +13,7 @@ public class Player : Object
 
     void Start()
     {
+        inventory = GameObject.Find("GameController").GetComponent<PlayerData>().inventory;
         mainCameraTransform = Camera.main.transform;
         EquipWeapon(inventory[currentWeaponIndex]);
     }

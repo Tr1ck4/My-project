@@ -150,7 +150,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
     {
         if (shopSystem.money >= fireRateUpgradeCost)
         {
-            weaponData.ShootSpeed += 0.1f;
+            weaponData.ShootSpeed -= 0.1f;
             firerateText.text = "Fire Rate: " + weaponData.ShootSpeed;
             shopSystem.DeductMoney((float)fireRateUpgradeCost);
 

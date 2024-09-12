@@ -23,12 +23,10 @@ public class Zombie : Object
         Vector3 distance = player.transform.position - transform.position;
         if (distance.magnitude > 2f)
         {
-            Debug.Log("Walking");
             Vector3 direction = distance.normalized;
             direction.y = 0;
             transform.position += direction * Speed * Time.deltaTime;
 
-            // Rotate the zombie to face the movement direction
             if (direction != Vector3.zero)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * Speed);
