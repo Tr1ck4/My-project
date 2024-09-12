@@ -14,18 +14,7 @@ public class Zombie : Object
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", false);
-
-        // Find the player GameObject by tag
-        if (playerGO == null)
-        {
-            playerGO = GameObject.FindWithTag("Player");  // Find player GameObject
-        }
-
-        // Get the Player script attached to the player GameObject
-        if (playerGO != null)
-        {
-            player = playerGO.GetComponent<Player>();
-        }
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
     void Update()
     {

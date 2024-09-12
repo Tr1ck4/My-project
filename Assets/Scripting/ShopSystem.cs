@@ -30,7 +30,7 @@ public class ShopSystem : MonoBehaviour
 
     void Awake(){
         if( instance == null ){
-            instance = this.instance;
+            instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else{
