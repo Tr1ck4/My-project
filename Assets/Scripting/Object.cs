@@ -10,15 +10,20 @@ public class Object : MonoBehaviour
     public float Damage;
     public Rigidbody body;
 
+    // Array or List of blood splatter prefabs
+    public GameObject[] bloodSplatterPrefabs;
+
+    // Time before the blood splatter disappears
+    public float splatterLifetime = 5f;
+
     public virtual void Move(){
         Debug.Log("Object moving");
     }
     public void TakeDamage(float amount){
         Health -= amount*(1-Ammor/100);
-        if (gameObject.tag == "Zombie")
-        {
-            gameObject.GetComponent<Zombie>().OnShot(transform.position, transform.rotation);
-        }
+
+        OnShot(transform.position, transform.rotation);
+
         //if (gameObject.tag == "Player")
         //{
         //    Debug.Log("Player HP: " + gameObject.GetComponent<Player>().Health);
@@ -26,6 +31,25 @@ public class Object : MonoBehaviour
         if (Health <= 0f){
             Die();
         }
+    }
+
+    public virtual void OnShot(Vector3 hitPosition, Quaternion hitRotation)
+    {
+        // Select a random blood splatter decal
+        GameObject bloodSplatter = bloodSplatterPrefabs[Random.Range(0, bloodSplatterPrefabs.Length)];
+
+        // Instantiate the blood splatter at the hit position
+        GameObject instantiatedSplatter = Instantiate(bloodSplatter, hitPosition, hitRotation);
+
+        // Start coroutine to destroy the splatter after the set lifetime
+        StartCoroutine(RemoveSplatterAfterTime(instantiatedSplatter, splatterLifetime));
+    }
+
+    // Coroutine to destroy the blood splatter after a set time
+    IEnumerator RemoveSplatterAfterTime(GameObject splatter, float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(splatter);
     }
     public virtual void Die(){
         Destroy(gameObject);
