@@ -3991,7 +3991,13 @@ MonoBehaviour:
   Ammor: 0
   Damage: 0
   body: {fileID: 598535168}
-  bloodSplatterPrefabs: []
+  bloodSplatterPrefabs:
+  - {fileID: 100000, guid: c53d6b7cd0de4e54aab27804d2366473, type: 3}
+  - {fileID: 100000, guid: 620f16afaa63b4341ab9f394dfff9d8f, type: 3}
+  - {fileID: 100000, guid: 39ff008ff9109a14ebf0e58382840bec, type: 3}
+  - {fileID: 100000, guid: c48887bc203ebcf4ea4126f57cf1f0c6, type: 3}
+  - {fileID: 100000, guid: fdce82cfaa0b79f419f923915dfe8135, type: 3}
+  - {fileID: 100000, guid: 795346e46905c064b844b5ce53de2858, type: 3}
   splatterLifetime: 5
   aggroRange: 20
   meleeRange: 2
@@ -6418,6 +6424,10 @@ PrefabInstance:
     - target: {fileID: 11400004, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: movementSettings.JumpForce
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 13600000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
+      propertyPath: m_Center.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11400006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
