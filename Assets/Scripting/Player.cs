@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Player : Object
 {
@@ -8,22 +9,23 @@ public class Player : Object
     public int currentWeaponIndex = 0;
     public Transform mainCameraTransform;
     public WeaponDatabase weaponDB;
+    public TMP_Text healthText;
 
     void Start()
     {
+        inventory = GameObject.Find("GameController").GetComponent<PlayerData>().inventory;
         mainCameraTransform = Camera.main.transform;
-        if (inventory.Count < 2) {
-            inventory.Add(weaponDB.weaponList[0]);
-        }
         EquipWeapon(inventory[currentWeaponIndex]);
     }
 
     void Update()
     {
+        inventory = GameObject.Find("GameController").GetComponent<PlayerData>().inventory;
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SwitchWeapon();
         }
+        healthText.text = this.Health.ToString();
     }
 
     void SwitchWeapon()
@@ -69,14 +71,6 @@ public class Player : Object
         }
     }
 
-    public void AddWeapon(WeaponData newWeapon)
-    {
-        if (!inventory.Contains(newWeapon) && inventory.Count < 2)
-        {
-            inventory.Add(newWeapon);
-        }
-    }
-
     void SaveCurrentWeapon(){
         WeaponData currentWeapon = inventory[currentWeaponIndex];
         Gun currentGun = mainCameraTransform.GetComponentInChildren<Gun>();
@@ -87,7 +81,6 @@ public class Player : Object
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Coliding with " + other.gameObject.tag);
         if (other.gameObject.tag == "AmmoBox"){
             AddAmmo();
         }

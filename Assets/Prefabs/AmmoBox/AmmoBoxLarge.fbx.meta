@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: BoxLarge
-    second: {fileID: 2100000, guid: dc6e8b2b594d82f4cb863da8f1ff1886, type: 2}
+    second: {fileID: 2100000, guid: ffeb327f3866f1b4dbca2c39866d0259, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

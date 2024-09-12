@@ -9,6 +9,11 @@ public class WeaponData
     public int Ammo;
     public float ShootSpeed;
     public float range;
-    public GameObject weaponPrefab;
 
+    public float price;
+    public float updateCost; 
+    public GameObject weaponPrefab;
+    public Sprite weaponImage;
+
+    public bool isSold = false;
 }

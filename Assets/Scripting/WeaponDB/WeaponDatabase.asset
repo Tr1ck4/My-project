@@ -17,10 +17,14 @@ MonoBehaviour:
     damage: 12
     Mag: 6
     maxMag: 6
-    Ammo: 16
+    Ammo: 18
     ShootSpeed: 1
     range: 80
+    price: 200
+    updateCost: 50
     weaponPrefab: {fileID: 7133336745682130024, guid: 76114a16673c2904cb2cb7053a3ddc10, type: 3}
+    weaponImage: {fileID: 21300000, guid: 7eb3206109b1c8247a4525e942d92691, type: 3}
+    isSold: 0
   - weaponName: Desert Eagle
     damage: 14
     Mag: 7
@@ -28,7 +32,11 @@ MonoBehaviour:
     Ammo: 20
     ShootSpeed: 3
     range: 100
+    price: 500
+    updateCost: 60
     weaponPrefab: {fileID: 1896349989204973252, guid: 9987051df59074848aa8908be9670890, type: 3}
+    weaponImage: {fileID: 21300000, guid: 3f24059e31b72df4f91b052ded4ed85d, type: 3}
+    isSold: 0
   - weaponName: G14
     damage: 20
     Mag: 8
@@ -36,15 +44,23 @@ MonoBehaviour:
     Ammo: 30
     ShootSpeed: 1.2
     range: 100
+    price: 800
+    updateCost: 80
     weaponPrefab: {fileID: 1785435777294800262, guid: 1f01a7aea7ce1e9419915423dfb24a86, type: 3}
+    weaponImage: {fileID: 21300000, guid: 0dc01690a2e992b49b2977551e0a9a6e, type: 3}
+    isSold: 0
   - weaponName: M4
     damage: 8
-    Mag: 0
+    Mag: 30
     maxMag: 30
     Ammo: 60
     ShootSpeed: 10
     range: 100
+    price: 1400
+    updateCost: 100
     weaponPrefab: {fileID: 5559442646728411565, guid: 38c96234ac22ee04697a4f3604688996, type: 3}
+    weaponImage: {fileID: 21300000, guid: 878579673a4c9224f92aff229537ef48, type: 3}
+    isSold: 0
   - weaponName: M416
     damage: 9
     Mag: 30
@@ -52,7 +68,11 @@ MonoBehaviour:
     Ammo: 60
     ShootSpeed: 12
     range: 120
+    price: 2000
+    updateCost: 150
     weaponPrefab: {fileID: 4790321107070263294, guid: cac4009e596e70b4d872ed77341c039b, type: 3}
+    weaponImage: {fileID: 21300000, guid: e612083f26b33cb4a82377431bd8da13, type: 3}
+    isSold: 0
   - weaponName: M4A4
     damage: 10
     Mag: 40
@@ -60,4 +80,8 @@ MonoBehaviour:
     Ammo: 100
     ShootSpeed: 15
     range: 120
+    price: 3000
+    updateCost: 200
     weaponPrefab: {fileID: 3157565929852043342, guid: cc4156adf6614cb4693b57fd602cf0b9, type: 3}
+    weaponImage: {fileID: 21300000, guid: 2db27b3b18a7e35408afa999f51e904b, type: 3}
+    isSold: 0

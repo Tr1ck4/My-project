@@ -5,9 +5,8 @@ using UnityEngine;
 public class Zombie : Object
 {
     public Player player;
-    public GameObject playerGO;
-    public bool isTargetable = true;
     public Animator animator;
+    public float RotationSpeed = 5f; // Speed for rotating towards the player
 
     private bool isAttacking = false;
 
