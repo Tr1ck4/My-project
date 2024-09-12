@@ -17,7 +17,7 @@ public class Zombie : Object
     // Time before the blood splatter disappears
     public float splatterLifetime = 5f;
 
-    void Start(){
+    protected void Start(){
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", false);
@@ -115,7 +115,7 @@ public class Zombie : Object
         Destroy(transform.gameObject);
     }
 
-    public void ZombieDie()
+    public override void Die()
     {
         StartCoroutine(DieRoutine());
     }

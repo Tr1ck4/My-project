@@ -19,19 +19,15 @@ public class Object : MonoBehaviour
         {
             gameObject.GetComponent<Zombie>().OnShot(transform.position, transform.rotation);
         }
+        if (gameObject.tag == "Player")
+        {
+            Debug.Log("Player HP: " + gameObject.GetComponent<Player>().Health);
+        }
         if (Health <= 0f){
             Die();
         }
     }
-    void Die(){
-        if (gameObject.tag == "Zombie")
-        {
-            gameObject.GetComponent<Zombie>().ZombieDie();
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
+    public virtual void Die(){
+        Destroy(gameObject);
     }
 }
