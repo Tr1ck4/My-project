@@ -383,6 +383,7 @@ MonoBehaviour:
   animator: {fileID: 5678662480661374298}
   RotationSpeed: 5
   audioSource: {fileID: 0}
+  price: 25
 --- !u!136 &670852734863123766
 CapsuleCollider:
   m_ObjectHideFlags: 0

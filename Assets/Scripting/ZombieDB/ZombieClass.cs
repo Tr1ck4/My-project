@@ -8,6 +8,7 @@ public class ZombieData
     public float Speed;
     public float Resist;
     public float Resistance;
+    public int price;
     public GameObject zombiePrefab;
 
 }

@@ -19,6 +19,7 @@ MonoBehaviour:
     Speed: 0
     Resist: 0
     Resistance: 0
+    price: 20
     zombiePrefab: {fileID: 9079734511825769859, guid: 2a48789f18074ec4eb28dd625e11e677, type: 3}
   - ZombieName: Fast
     Health: 100
@@ -26,4 +27,5 @@ MonoBehaviour:
     Speed: 0
     Resist: 0
     Resistance: 0
+    price: 25
     zombiePrefab: {fileID: 1397616753976370586, guid: e934af1f9812c1745a0348f2d8b3090c, type: 3}

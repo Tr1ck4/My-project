@@ -42,6 +42,10 @@ public class WeaponUpgradeHandler : MonoBehaviour
         CheckButtonStates();
     }
 
+    void Update(){
+        CheckButtonStates();
+    }
+
     public void Initialize(WeaponData weaponData, ShopSystem shopSystem)
     {
         this.weaponData = weaponData;

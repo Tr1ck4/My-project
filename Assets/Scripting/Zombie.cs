@@ -12,6 +12,8 @@ public class Zombie : Object
 
     private bool isAttacking = false;
 
+    public float price;
+
     protected void Start(){
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
@@ -32,14 +34,14 @@ public class Zombie : Object
     public override void Move()
     {
         Vector3 distance = player.transform.position - transform.position;
-        
+
         if (distance.magnitude > 2f && !animator.GetBool("isDead"))
         {
             Vector3 direction = distance.normalized;
-            direction.y = 0; 
+            direction.y = 0; // Ignore vertical movement
 
-            Vector3 newPosition = transform.position + direction * Speed * Time.deltaTime;
-            this.body.MovePosition(newPosition);
+            // Apply force in the direction of the player
+            this.body.AddForce(direction * Speed, ForceMode.VelocityChange);
 
             if (direction != Vector3.zero)
             {
@@ -56,6 +58,7 @@ public class Zombie : Object
             }
         }
     }
+
 
     public override void OnShot(Vector3 hitPosition, Quaternion hitRotation)
     {
@@ -87,6 +90,7 @@ public class Zombie : Object
 
     IEnumerator DieRoutine()
     {
+        GameObject.Find("GameController").GetComponent<GameController>().money += this.price;
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", true);
