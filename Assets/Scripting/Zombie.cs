@@ -9,6 +9,8 @@ public class Zombie : Object
     public bool isTargetable = true;
     public Animator animator;
 
+    public AudioSource audioSource;
+
     private bool isAttacking = false;
 
     protected void Start(){
@@ -26,6 +28,13 @@ public class Zombie : Object
         if (playerGO != null)
         {
             player = playerGO.GetComponent<Player>();
+        }
+
+        audioSource = gameObject.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            Debug.Log("Zombie: Cannot find AudioSource.");
         }
     }
     void Update()
@@ -58,6 +67,11 @@ public class Zombie : Object
         }
     }
 
+    public override void OnShot(Vector3 hitPosition, Quaternion hitRotation)
+    {
+        base.OnShot(hitPosition, hitRotation);
+    }
+
     IEnumerator AttackRoutine()
     {
         isAttacking = true;
@@ -86,6 +100,7 @@ public class Zombie : Object
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", true);
+        yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForSeconds(6f);
         Destroy(transform.gameObject);
     }

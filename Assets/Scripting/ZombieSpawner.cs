@@ -32,7 +32,7 @@ public class ZombieSpawner : MonoBehaviour
     {
         foreach (var zombieType in zombiesToSpawn)
         {
-            Debug.Log("Spawning Zombie Type: " +  zombieType.ToString());
+            //Debug.Log("Spawning Zombie Type: " +  zombieType.ToString());
             for (int i = 0; i < zombieType.quantity; i++)
             {
                 // Generate a random position within spawnRadius on the XZ plane to spawn Zombie
