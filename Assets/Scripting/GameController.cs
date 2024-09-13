@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class WeaponDatabaseWrapper
+{
+    public List<WeaponData> weaponList;
+    public float money;
+}
+
 public class GameController : MonoBehaviour
 {
+    private HomeController homeController;
     private Button shopToggle;
     private GameObject shopDisplay;
     private GameController instance;
     private GameObject toggle;
-    public ShopSystem system;
+    public WeaponDatabase weaponDatabase;
+    public WeaponDatabase originData;
     public PlayerData playerData;
+    public int status;
+    public float money;
     void Awake()
     {
         if( instance == null ){
@@ -22,28 +33,52 @@ public class GameController : MonoBehaviour
         }
     }
     void Start(){
-        shopDisplay = GameObject.Find("ShopSystem");
-        shopDisplay.SetActive(false);
+        homeController = GameObject.Find("HomeController").GetComponent<HomeController>();
+        if( homeController!= null){
+            if (homeController.status == 0){
+                FreshData();
+            }
+            if (homeController.status == 1){
+                LoadData();
+            }
+        }
     }
     void Update()
     {
-        if (shopToggle == null){
-            shopToggle = GameObject.Find("Shop")?.GetComponent<Button>();
-        }
-        if (shopToggle != null){
-            shopToggle.onClick.AddListener(OnShopToggle);
-        }
         if (toggle == null){toggle = GameObject.Find("ToggleTutorial");}
-        if (system == null){system = GameObject.Find("ShopSystem")?.GetComponent<ShopSystem>();}
         if (Input.GetKeyDown(KeyCode.M)){
             toggle.gameObject.SetActive(!toggle.activeInHierarchy);
         }
     }
-    void OnShopToggle(){
-        shopDisplay.SetActive(!shopDisplay.activeSelf);
+    void OnApplicationQuit(){
+        SaveData();
     }
 
-    void OnApplicationQuit(){
-        system.SaveData();
+    public void SaveData()
+    {
+        WeaponDatabaseWrapper databaseWrapper = new WeaponDatabaseWrapper { weaponList = weaponDatabase.weaponList, money = this.money };
+        string json = JsonUtility.ToJson(databaseWrapper);
+        System.IO.File.WriteAllText("gunData.json", json);
     }
+
+
+    void LoadData()
+    {
+        string json = System.IO.File.ReadAllText("gunData.json");
+        WeaponDatabaseWrapper databaseWrapper = JsonUtility.FromJson<WeaponDatabaseWrapper>(json);
+
+        weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
+        weaponDatabase.weaponList = databaseWrapper.weaponList;
+        this.money = databaseWrapper.money;
+    }
+
+    void FreshData()
+    {   
+        weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
+        weaponDatabase.weaponList = originData.weaponList;
+        this.money = 200;
+        SaveData();
+    }
+
+
 }

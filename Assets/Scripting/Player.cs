@@ -5,6 +5,7 @@ using TMPro;
 
 public class Player : Object
 {
+    private Setting settings;
     public List<WeaponData> inventory;
     public int currentWeaponIndex = 0;
     public Transform mainCameraTransform;
@@ -13,6 +14,9 @@ public class Player : Object
 
     void Start()
     {
+        settings = GameObject.Find("SettingModal").GetComponent<Setting>();
+        this.Health = settings.Health;
+        this.Ammor = settings.Ammor;
         inventory = GameObject.Find("GameController").GetComponent<PlayerData>().inventory;
         mainCameraTransform = Camera.main.transform;
         EquipWeapon(inventory[currentWeaponIndex]);

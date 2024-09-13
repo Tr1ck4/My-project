@@ -3,27 +3,17 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 
-[System.Serializable]
-public class WeaponDatabaseWrapper
-{
-    public List<WeaponData> weaponList;
-    public float money;
-}
-
-
-
 public class ShopSystem : MonoBehaviour
 {
     private ShopSystem instance;
-    public WeaponDatabase weaponDatabase; 
     private WeaponDatabase database;
+    public GameController gameController;
     public GameObject weaponPrefab;       
     public Transform weaponParent;         
     public ScrollRect scrollRect;          
     public Button previousButton;          
     public Button nextButton; 
-    public TMP_Text moneyText; 
-    public float money;            
+    public TMP_Text moneyText;            
 
     private int currentPageIndex = 0;      
     private int totalPages; 
@@ -40,7 +30,8 @@ public class ShopSystem : MonoBehaviour
 
     void Start()
     {
-        LoadData();
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
+        database = gameController.weaponDatabase;
         totalPages = Mathf.CeilToInt((float)database.weaponList.Count / 1);
 
         PopulateCarousel();
@@ -52,7 +43,8 @@ public class ShopSystem : MonoBehaviour
     }
 
     void Update(){
-        moneyText.text = "$" + money.ToString();
+        database = gameController.weaponDatabase;
+        moneyText.text = "$" + gameController.money.ToString();
     }
 
      void PopulateCarousel()
@@ -74,7 +66,7 @@ public class ShopSystem : MonoBehaviour
             WeaponUpgradeHandler upgradeHandler = weaponInstance.GetComponent<WeaponUpgradeHandler>();
             if (upgradeHandler != null)
             {
-                upgradeHandler.Initialize(weaponData,this);
+                upgradeHandler.Initialize(weaponData, this);
             }
         }
 
@@ -109,46 +101,8 @@ public class ShopSystem : MonoBehaviour
     }
 
     public void DeductMoney(float amount){
-        if (money >= amount){
-            money -= amount;
+        if (gameController.money >= amount){
+            gameController.money -= amount;
         }
     }
-
-    public void SaveData()
-    {
-        if (database != null)
-        {
-            WeaponDatabaseWrapper databaseWrapper = new WeaponDatabaseWrapper { weaponList = database.weaponList, money = this.money };
-            string json = JsonUtility.ToJson(databaseWrapper);
-            System.IO.File.WriteAllText("gunData.json", json);
-        }
-        else
-        {
-            WeaponDatabaseWrapper databaseWrapper = new WeaponDatabaseWrapper { weaponList = weaponDatabase.weaponList, money = this.money };
-            string json = JsonUtility.ToJson(databaseWrapper);
-            System.IO.File.WriteAllText("gunData.json", json);
-        }
-    }
-
-
-    public void LoadData()
-    {
-        string json = System.IO.File.ReadAllText("gunData.json");
-        WeaponDatabaseWrapper databaseWrapper = JsonUtility.FromJson<WeaponDatabaseWrapper>(json);
-
-        database = ScriptableObject.CreateInstance<WeaponDatabase>();
-        database.weaponList = databaseWrapper.weaponList;
-        this.money = databaseWrapper.money;
-    }
-
-    public void FreshData()
-    {   
-        database = ScriptableObject.CreateInstance<WeaponDatabase>();
-        database.weaponList = weaponDatabase.weaponList;
-        this.money = 200;
-        SaveData();
-    }
-
-
-
 }

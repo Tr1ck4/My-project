@@ -368,10 +368,6 @@ MonoBehaviour:
   Ammor: 0
   Damage: 5
   body: {fileID: 8999693085645746339}
-  player: {fileID: 0}
-  playerGO: {fileID: 0}
-  isTargetable: 1
-  animator: {fileID: 5678662480661374298}
   bloodSplatterPrefabs:
   - {fileID: 100000, guid: 358b75ea5451cf143ab19029a189097d, type: 3}
   - {fileID: 100000, guid: cfc7596704bbd7f489156fcd4c05c7e9, type: 3}
@@ -381,10 +377,9 @@ MonoBehaviour:
   - {fileID: 100000, guid: 14987c031123b98408a165a8bf1288d4, type: 3}
   - {fileID: 100000, guid: 43dd1ba2a5dde844eb01240da13ab96b, type: 3}
   splatterLifetime: 5
-  maxWallCheckDistance: 5
-  surfaceLayerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  player: {fileID: 0}
+  animator: {fileID: 5678662480661374298}
+  RotationSpeed: 5
 --- !u!136 &670852734863123766
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -431,9 +426,9 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &1690494605807795363
 GameObject:

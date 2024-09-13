@@ -6,41 +6,33 @@ using UnityEngine.SceneManagement;
 
 public class mainscreen : MonoBehaviour
 {
-    private GameController gameController;
-    private GameObject shopdisplay;
+    private HomeController controller;
     private Button toggleButton;
     public Button newGame;
     public Button continueGame;
     public Button tutorialGame;
-    public Button settingsGame;
     public Button exitGame;
     // Start is called before the first frame update
     void Start()
     {
-        gameController = GameObject.Find("GameController").GetComponent<GameController>();
-        shopdisplay = GameObject.Find("ShopSystem");
+        controller = GameObject.Find("HomeController").GetComponent<HomeController>();
         newGame.onClick.AddListener(EnterGame);
         continueGame.onClick.AddListener(EnterContinue);
         tutorialGame.onClick.AddListener(EnterTutorial);
-        settingsGame.onClick.AddListener(EnterSetting);
         exitGame.onClick.AddListener(ExitGame);
     }
     void EnterGame(){
-        gameController.system.FreshData();
+        controller.status = 0;
         SceneManager.LoadScene("MainScreen");
     }
     void EnterContinue(){
-        gameController.system.LoadData();
+        controller.status = 1;
         SceneManager.LoadScene("MainScreen");
     }
     void EnterTutorial(){
-        
-    }
-    void EnterSetting(){
-
+        controller.status = 2;
     }
     void ExitGame(){
-        gameController.system.SaveData();
         Application.Quit();
     }
 }

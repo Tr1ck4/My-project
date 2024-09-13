@@ -85,16 +85,16 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     void CheckButtonStates()
     {
-        UdamageButton.interactable = shopSystem.money >= damageUpgradeCost;
-        UmaxMagButton.interactable = shopSystem.money >= maxMagUpgradeCost;
-        UammoButton.interactable = shopSystem.money >= ammoUpgradeCost;
-        UfirerateButton.interactable = shopSystem.money >= fireRateUpgradeCost;
-        UrangeButton.interactable = shopSystem.money >= rangeUpgradeCost;
+        UdamageButton.interactable = shopSystem.gameController.money >= damageUpgradeCost;
+        UmaxMagButton.interactable = shopSystem.gameController.money >= maxMagUpgradeCost;
+        UammoButton.interactable = shopSystem.gameController.money >= ammoUpgradeCost;
+        UfirerateButton.interactable = shopSystem.gameController.money >= fireRateUpgradeCost;
+        UrangeButton.interactable = shopSystem.gameController.money >= rangeUpgradeCost;
     }
 
     public void BuyGun()
     {
-        if (shopSystem.money >= weaponData.price)
+        if (shopSystem.gameController.money >= weaponData.price)
         {
             weaponPrice.text = "Equip";
             weaponData.isSold = true;
@@ -112,7 +112,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeDamage()
     {
-        if (shopSystem.money >= damageUpgradeCost)
+        if (shopSystem.gameController.money >= damageUpgradeCost)
         {
             weaponData.damage += 1;
             damageText.text = "Damage: " + weaponData.damage;
@@ -124,7 +124,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeMaxMag()
     {
-        if (shopSystem.money >= maxMagUpgradeCost)
+        if (shopSystem.gameController.money >= maxMagUpgradeCost)
         {
             weaponData.maxMag += 1;
             maxMagText.text = "Max Mag: " + weaponData.maxMag;
@@ -136,7 +136,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeAmmo()
     {
-        if (shopSystem.money >= ammoUpgradeCost)
+        if (shopSystem.gameController.money >= ammoUpgradeCost)
         {
             weaponData.Ammo += 2;
             ammoText.text = "Ammo: " + weaponData.Ammo;
@@ -148,7 +148,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeFireRate()
     {
-        if (shopSystem.money >= fireRateUpgradeCost)
+        if (shopSystem.gameController.money >= fireRateUpgradeCost)
         {
             weaponData.ShootSpeed -= 0.1f;
             firerateText.text = "Fire Rate: " + weaponData.ShootSpeed;
@@ -160,7 +160,7 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeRange()
     {
-        if (shopSystem.money >= rangeUpgradeCost)
+        if (shopSystem.gameController.money >= rangeUpgradeCost)
         {
             weaponData.range += 2;
             rangeText.text = "Range: " + weaponData.range;
