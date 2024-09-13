@@ -15,14 +15,14 @@ MonoBehaviour:
   zombieList:
   - ZombieName: Normal
     Health: 50
-    Damage: 5
+    Damage: 7
     Speed: 0
     Resist: 0
     Resistance: 0
     zombiePrefab: {fileID: 9079734511825769859, guid: 2a48789f18074ec4eb28dd625e11e677, type: 3}
   - ZombieName: Fast
     Health: 100
-    Damage: 10
+    Damage: 5
     Speed: 0
     Resist: 0
     Resistance: 0

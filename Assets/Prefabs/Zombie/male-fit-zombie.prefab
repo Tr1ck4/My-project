@@ -2560,7 +2560,7 @@ MonoBehaviour:
   Health: 50
   Speed: 2
   Ammor: 0
-  Damage: 0
+  Damage: 7
   body: {fileID: 1042835435631177522}
   bloodSplatterPrefabs:
   - {fileID: 100000, guid: 358b75ea5451cf143ab19029a189097d, type: 3}
