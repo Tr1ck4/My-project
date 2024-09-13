@@ -23,7 +23,7 @@ public class ZombieIdleState : StateMachineBehaviour
 
         // Play a random idle sound
         AudioClip randomClip = idleSounds[Random.Range(0, idleSounds.Length)];
-        audioSource.PlayOneShot(randomClip);
+        audioSource.PlayOneShot(randomClip, 0.25f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,7 +33,7 @@ public class ZombieIdleState : StateMachineBehaviour
         if (!audioSource.isPlaying)
         {
             AudioClip randomClip = idleSounds[Random.Range(0, idleSounds.Length)];
-            audioSource.PlayOneShot(randomClip);
+            audioSource.PlayOneShot(randomClip, 0.25f);
         }
     }
 
