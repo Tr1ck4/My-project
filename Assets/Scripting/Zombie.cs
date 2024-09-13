@@ -8,6 +8,8 @@ public class Zombie : Object
     public Animator animator;
     public float RotationSpeed = 5f;
 
+    public AudioSource audioSource;
+
     private bool isAttacking = false;
 
     protected void Start(){
@@ -15,6 +17,12 @@ public class Zombie : Object
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", false);
         player = GameObject.Find("Player").GetComponent<Player>();
+        audioSource = gameObject.GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            Debug.Log("Zombie: Cannot find AudioSource.");
+        }
     }
     void Update()
     {
@@ -49,6 +57,10 @@ public class Zombie : Object
         }
     }
 
+    public override void OnShot(Vector3 hitPosition, Quaternion hitRotation)
+    {
+        base.OnShot(hitPosition, hitRotation);
+    }
 
     IEnumerator AttackRoutine()
     {
@@ -78,6 +90,7 @@ public class Zombie : Object
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", true);
+        yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForSeconds(6f);
         Destroy(transform.gameObject);
     }
