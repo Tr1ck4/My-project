@@ -72,6 +72,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
+  impactSounds: []
+  attackSoundScale: 0.25
+  impactSoundScale: 1
 --- !u!1102 &-5463800095782288728
 AnimatorState:
   serializedVersion: 6
@@ -238,6 +241,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f1547ad8fbfa4f24d83e5a445aee860d, type: 3}
   - {fileID: 8300000, guid: 47832b56ccba5bc408b1d5aac1871746, type: 3}
   - {fileID: 8300000, guid: 3d132da7af60f1145a3deb6a8bc42a08, type: 3}
+  angrySoundScale: 0.25
+  footstepSoundScale: 1
   footstepInterval: 0.5
 --- !u!114 &-1457197779319844837
 MonoBehaviour:
@@ -253,6 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idleSounds:
   - {fileID: 8300000, guid: 10732d0c2b844ae4c9ce62eab3a4c9b3, type: 3}
+  volumeScale: 0.25
 --- !u!114 &-1413878629274058707
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,7 +406,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47ef325690c1c0243a8d76d4462ed96a, type: 3}
   m_Name: 
@@ -409,6 +415,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5cd921b91deac4f47b05c451951f7a53, type: 3}
   - {fileID: 8300000, guid: a4366158371c9514cae30cfff454dcb2, type: 3}
   - {fileID: 8300000, guid: fc1882cb9cb0d474c95537bbdb4c48bd, type: 3}
+  deathSoundScale: 1
 --- !u!1102 &3334169383109935759
 AnimatorState:
   serializedVersion: 6

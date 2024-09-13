@@ -2576,7 +2576,8 @@ MonoBehaviour:
   playerGO: {fileID: 0}
   isTargetable: 1
   animator: {fileID: 2569952396045669699}
-  audioSource: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: fc1882cb9cb0d474c95537bbdb4c48bd, type: 3}
+  deathSoundVolumeScale: 2
 --- !u!54 &1042835435631177522
 Rigidbody:
   m_ObjectHideFlags: 0
