@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class mainscreen : MonoBehaviour
 {
-    private HomeController controller;
+    private GameController controller;
     private Button toggleButton;
     public Button newGame;
     public Button continueGame;
@@ -15,22 +15,22 @@ public class mainscreen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controller = GameObject.Find("HomeController").GetComponent<HomeController>();
+        controller = GameObject.Find("GameController").GetComponent<GameController>();
         newGame.onClick.AddListener(EnterGame);
         continueGame.onClick.AddListener(EnterContinue);
         tutorialGame.onClick.AddListener(EnterTutorial);
         exitGame.onClick.AddListener(ExitGame);
     }
     void EnterGame(){
-        controller.status = 0;
+        controller.FreshData();
         SceneManager.LoadScene("MainScreen");
     }
     void EnterContinue(){
-        controller.status = 1;
+        controller.LoadData();
         SceneManager.LoadScene("MainScreen");
     }
     void EnterTutorial(){
-        controller.status = 2;
+        
     }
     void ExitGame(){
         Application.Quit();

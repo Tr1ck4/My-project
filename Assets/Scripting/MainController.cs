@@ -1,22 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainController : MonoBehaviour
 {
-    public GameObject shopSystem;
-    public GameObject settingSystem;
+    private ShopSystem shopSystem;
+    private Setting settingSystem;
     
-    void Start(){
-        shopSystem.SetActive(false);
-        settingSystem.SetActive(false);
+    void Start()
+    {
+        shopSystem = ShopSystem.instance;
+        settingSystem = Setting.instance;
+
+        if (shopSystem != null)
+        {
+            shopSystem.gameObject.SetActive(false); // Or other initialization logic
+        }
+        if (settingSystem != null)
+        {
+            settingSystem.gameObject.SetActive(false); // Or other initialization logic
+        }
     }
 
-    public void Toggle1(){
-        shopSystem.SetActive(!shopSystem.activeSelf);
+    public void Toggle1()
+    {
+        if (shopSystem != null)
+        {
+            shopSystem.gameObject.SetActive(!shopSystem.gameObject.activeSelf);
+        }
     }
 
-    public void Toggle2(){
-        settingSystem.SetActive(!settingSystem.activeSelf);
+    public void Toggle2()
+    {
+        if (settingSystem != null)
+        {
+            settingSystem.gameObject.SetActive(!settingSystem.gameObject.activeSelf);
+        }
     }
 }

@@ -435,8 +435,9 @@ MonoBehaviour:
   weaponDatabase: {fileID: 0}
   originData: {fileID: 11400000, guid: 5252af586ead5dd4ab067d6204f92d4c, type: 2}
   playerData: {fileID: 312678586}
-  status: 0
   money: 0
+  Health: 100
+  Ammor: 0
 --- !u!4 &312678588
 Transform:
   m_ObjectHideFlags: 0
@@ -674,7 +675,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1313549367}
-  - component: {fileID: 1313549366}
   m_Layer: 0
   m_Name: HomeController
   m_TagString: Untagged
@@ -682,19 +682,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1313549366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1313549365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 149ceea3854780043afa4742178e0edb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  status: 0
 --- !u!4 &1313549367
 Transform:
   m_ObjectHideFlags: 0
@@ -1272,7 +1259,6 @@ MonoBehaviour:
   newGame: {fileID: 1222172843}
   continueGame: {fileID: 1801513446}
   tutorialGame: {fileID: 1409356436}
-  settingsGame: {fileID: 0}
   exitGame: {fileID: 272775028}
 --- !u!1 &1735717512
 GameObject:

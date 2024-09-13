@@ -17,7 +17,7 @@ MonoBehaviour:
     damage: 12
     Mag: 6
     maxMag: 6
-    Ammo: 18
+    Ammo: 16
     ShootSpeed: 1
     range: 80
     price: 200
@@ -30,7 +30,7 @@ MonoBehaviour:
     Mag: 7
     maxMag: 7
     Ammo: 20
-    ShootSpeed: 3
+    ShootSpeed: 0.9
     range: 100
     price: 500
     updateCost: 60

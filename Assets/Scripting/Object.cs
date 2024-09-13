@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class Object : MonoBehaviour
 {
@@ -52,6 +54,14 @@ public class Object : MonoBehaviour
         Destroy(splatter);
     }
     public virtual void Die(){
-        Destroy(gameObject);
+        if (gameObject.tag == "Player"){
+            // Assuming RigidbodyFirstPersonController is attached to the player object
+            RigidbodyFirstPersonController controller = GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>();
+            controller.Die();
+            SceneManager.LoadScene("MainScreen");
+        }
+        else{
+            Destroy(gameObject);
+        }
     }
 }

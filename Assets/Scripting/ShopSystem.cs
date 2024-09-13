@@ -5,7 +5,7 @@ using TMPro;
 
 public class ShopSystem : MonoBehaviour
 {
-    private ShopSystem instance;
+    public static ShopSystem instance { get; private set; }
     private WeaponDatabase database;
     public GameController gameController;
     public GameObject weaponPrefab;       

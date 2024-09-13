@@ -14,7 +14,7 @@ public class Setting : MonoBehaviour
     public TMP_InputField moneyInput;
     public Button saveButton;
 
-    private Setting instance;
+    public static Setting instance { get; private set; }
     private GameController gameController;
 
 
@@ -50,7 +50,8 @@ public class Setting : MonoBehaviour
     {
         if (float.TryParse(healthInput.text, out float result) && result > 0)
         {
-            Health = result; 
+            Health = result;
+            gameController.Health = result; 
         }
         else
         {
@@ -64,6 +65,7 @@ public class Setting : MonoBehaviour
         if (float.TryParse(ammorInput.text, out float result) && result > 0)
         {
             Ammor = result;
+            gameController.Ammor = result;
         }
         else
         {

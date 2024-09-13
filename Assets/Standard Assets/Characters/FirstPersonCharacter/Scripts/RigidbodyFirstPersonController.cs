@@ -270,5 +270,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jumping = false;
             }
         }
+
+        public void Die(){
+            mouseLook.SetCursorLock(false);
+        }
     }
 }

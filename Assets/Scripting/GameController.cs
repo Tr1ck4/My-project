@@ -12,16 +12,16 @@ public class WeaponDatabaseWrapper
 
 public class GameController : MonoBehaviour
 {
-    private HomeController homeController;
+    private GameController instance;
     private Button shopToggle;
     private GameObject shopDisplay;
-    private GameController instance;
     private GameObject toggle;
     public WeaponDatabase weaponDatabase;
     public WeaponDatabase originData;
     public PlayerData playerData;
-    public int status;
     public float money;
+    public float Health;
+    public float Ammor;
     void Awake()
     {
         if( instance == null ){
@@ -30,17 +30,6 @@ public class GameController : MonoBehaviour
         }
         else{
             Destroy(gameObject);
-        }
-    }
-    void Start(){
-        homeController = GameObject.Find("HomeController").GetComponent<HomeController>();
-        if( homeController!= null){
-            if (homeController.status == 0){
-                FreshData();
-            }
-            if (homeController.status == 1){
-                LoadData();
-            }
         }
     }
     void Update()
@@ -62,23 +51,33 @@ public class GameController : MonoBehaviour
     }
 
 
-    void LoadData()
+    public void LoadData()
     {
         string json = System.IO.File.ReadAllText("gunData.json");
         WeaponDatabaseWrapper databaseWrapper = JsonUtility.FromJson<WeaponDatabaseWrapper>(json);
-
+        Debug.Log(databaseWrapper.weaponList);
+        Debug.Log(databaseWrapper.money);
         weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
         weaponDatabase.weaponList = databaseWrapper.weaponList;
         this.money = databaseWrapper.money;
     }
 
-    void FreshData()
-    {   
+    public void FreshData()
+    {
         weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
-        weaponDatabase.weaponList = originData.weaponList;
+        
+        // Deep copy the weaponList
+        weaponDatabase.weaponList = new List<WeaponData>();
+        foreach (WeaponData weapon in originData.weaponList)
+        {
+            weaponDatabase.weaponList.Add(new WeaponData(weapon));
+        }
+        
         this.money = 200;
+        
         SaveData();
     }
+
 
 
 }
