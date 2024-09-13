@@ -6,7 +6,7 @@ public class Zombie : Object
 {
     public Player player;
     public Animator animator;
-    public float RotationSpeed = 5f; // Speed for rotating towards the player
+    public float RotationSpeed = 5f;
 
     private bool isAttacking = false;
 
@@ -24,11 +24,14 @@ public class Zombie : Object
     public override void Move()
     {
         Vector3 distance = player.transform.position - transform.position;
-        if (distance.magnitude > 2f && animator.GetBool("isDead") == false)
+        
+        if (distance.magnitude > 2f && !animator.GetBool("isDead"))
         {
             Vector3 direction = distance.normalized;
-            direction.y = 0;
-            transform.position += direction * Speed * Time.deltaTime;
+            direction.y = 0; 
+
+            Vector3 newPosition = transform.position + direction * Speed * Time.deltaTime;
+            this.body.MovePosition(newPosition);
 
             if (direction != Vector3.zero)
             {
@@ -45,6 +48,7 @@ public class Zombie : Object
             }
         }
     }
+
 
     IEnumerator AttackRoutine()
     {
