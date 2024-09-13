@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
+using System.Linq;
 
 public class Player : Object
 {
@@ -9,6 +11,28 @@ public class Player : Object
     public Transform mainCameraTransform;
     public WeaponDatabase weaponDB;
 
+
+    public AudioClip[] rockFootsteps;  // Array for rock footstep sounds
+    public AudioClip[] grassFootsteps; // Array for grass footstep sounds
+    public AudioClip[] metalFootsteps; // Array for metal footstep sounds
+
+    public AudioClip[] rockFootstepsRun;  // Array for rock footstep run sounds
+    public AudioClip[] grassFootstepsRun; // Array for grass footstep run sounds
+    public AudioClip[] metalFootstepsRun; // Array for metal footstep run sounds
+
+    private readonly string[] surfaceTags = { "Rock", "Grass", "Metal" };
+
+
+    public AudioSource footstepAudioSource;  // The AudioSource component
+    public float footstepIntervalNormal = 0.5f;    // Interval between footsteps
+    public float footstepIntervalRunning = 0.0f;    // Interval between footsteps when running, scaled after getting rigidbodyFirstPersonController
+
+    private float footstepTimer = 0f;
+    private Rigidbody rb;
+    private RigidbodyFirstPersonController rigidbodyFirstPersonController;
+
+
+
     void Start()
     {
         mainCameraTransform = Camera.main.transform;
@@ -16,6 +40,54 @@ public class Player : Object
             inventory.Add(weaponDB.weaponList[0]);
         }
         EquipWeapon(inventory[currentWeaponIndex]);
+
+        rb = gameObject.GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.Log("Player: Cannot get Rigidbody");
+        }
+
+        rigidbodyFirstPersonController = gameObject.GetComponent<RigidbodyFirstPersonController>();
+        if (rigidbodyFirstPersonController == null)
+        {
+            Debug.Log("Player: Cannot get RigidbodyFirstPersonController");
+        }
+
+
+        footstepAudioSource = GetComponent<AudioSource>();
+        if (footstepAudioSource == null)
+        {
+            Debug.Log("Player: Cannot get footstepAudioSource");
+        }
+
+        if (rockFootsteps.Length == 0)
+        {
+            Debug.Log("Player: rockFootsteps list is empty");
+        }
+        if (grassFootsteps.Length == 0)
+        {
+            Debug.Log("Player: grassFootsteps list is empty");
+        }
+        if (metalFootsteps.Length == 0)
+        {
+            Debug.Log("Player: metalFootsteps list is empty");
+        }
+
+        if (rockFootstepsRun.Length == 0)
+        {
+            Debug.Log("Player: rockFootstepsRun list is empty");
+        }
+        if (grassFootstepsRun.Length == 0)
+        {
+            Debug.Log("Player: grassFootstepsRun list is empty");
+        }
+        if (metalFootstepsRun.Length == 0)
+        {
+            Debug.Log("Player: metalFootstepsRun list is empty");
+        }
+
+        footstepTimer = 0f;
+        footstepIntervalRunning = footstepIntervalNormal / rigidbodyFirstPersonController.movementSettings.RunMultiplier;
     }
 
     void Update()
@@ -23,6 +95,106 @@ public class Player : Object
         if (Input.GetKeyDown(KeyCode.Q))
         {
             SwitchWeapon();
+        }
+
+        footstepTimer += Time.deltaTime;
+        
+        if (rigidbodyFirstPersonController.Velocity.magnitude > 1.0f && !footstepAudioSource.isPlaying)
+        {
+            if (rigidbodyFirstPersonController.Running && footstepTimer >= footstepIntervalRunning)
+            {
+                PlayFootstep();
+                footstepTimer = 0f;
+            }
+            else if (footstepTimer >= footstepIntervalNormal)
+            {
+                PlayFootstep();
+                footstepTimer = 0f;
+            }
+        }
+
+    }
+
+    // This method searches upward in the hierarchy until it finds a parent with a valid tag
+    private string GetSurfaceTag(Transform child)
+    {
+        Transform current = child;
+
+        // Traverse up through the hierarchy
+        while (current != null)
+        {
+            // If the current object's tag is one of the surface tags, return it
+            if (surfaceTags.Contains(current.tag))
+            {
+                return current.tag;
+            }
+
+            current = current.parent;
+        }
+
+        // Return empty if no valid tag is found
+        return string.Empty;
+    }
+
+    // Play a footstep sound based on the surface the player is standing on
+    private void PlayFootstep()
+    {
+        RaycastHit hit;
+
+        // Raycast downward from the player to detect the surface
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 1.5f))
+        {
+            //string tag = hit.collider.tag;
+
+            // Get the surface tag by searching the hierarchy
+            string tag = GetSurfaceTag(hit.collider.transform);
+            //Debug.Log("Footstep raycast name: " + hit.collider.name);
+            //Debug.Log("Footstep raycast tag: " + hit.collider.tag);
+
+            if (tag == "Rock")
+            {
+                if (rigidbodyFirstPersonController.Running)
+                {
+                    PlayRandomFootstep(rockFootstepsRun);
+                }
+                else
+                {
+                    PlayRandomFootstep(rockFootsteps);
+                }
+                
+            }
+            else if (tag == "Grass")
+            {
+                if (rigidbodyFirstPersonController.Running)
+                {
+                    PlayRandomFootstep(grassFootstepsRun);
+                }
+                else
+                {
+                    PlayRandomFootstep(grassFootsteps);
+                }
+            }
+            else if (tag == "Metal")
+            {
+                if (rigidbodyFirstPersonController.Running)
+                {
+                    PlayRandomFootstep(metalFootstepsRun);
+                }
+                else
+                {
+                    PlayRandomFootstep(metalFootsteps);
+                }
+            }
+        }
+    }
+
+    // Play a random footstep sound from the array
+    private void PlayRandomFootstep(AudioClip[] footstepClips)
+    {
+        if (footstepClips.Length > 0)
+        {
+            AudioClip randomClip = footstepClips[Random.Range(0, footstepClips.Length)];
+            footstepAudioSource.PlayOneShot(randomClip, 2f);
         }
     }
 
@@ -87,7 +259,8 @@ public class Player : Object
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Coliding with " + other.gameObject.tag);
+    //    Debug.Log("Coliding with tag " + other.gameObject.tag);
+    //    Debug.Log("Coliding with object " + other.gameObject.name);
         if (other.gameObject.tag == "AmmoBox"){
             AddAmmo();
         }
