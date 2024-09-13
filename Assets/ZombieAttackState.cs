@@ -27,8 +27,7 @@ public class ZombieAttackState : StateMachineBehaviour
             audioSource.Stop();
         }
         AudioClip randomClip = attackSounds[Random.Range(0, attackSounds.Length)];
-        audioSource.clip = randomClip;
-        audioSource.Play();
+        audioSource.PlayOneShot(randomClip, 0.25f);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -38,7 +37,7 @@ public class ZombieAttackState : StateMachineBehaviour
         if (!audioSource.isPlaying)
         {
             AudioClip randomClip = attackSounds[Random.Range(0, attackSounds.Length)];
-            audioSource.PlayOneShot(randomClip);
+            audioSource.PlayOneShot(randomClip, 0.25f);
         }
     }
 

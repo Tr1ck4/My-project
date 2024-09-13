@@ -5,14 +5,37 @@ using UnityEngine;
 public class ZombieAggroState : StateMachineBehaviour
 {
     public AudioClip[] angrySounds;
-    private AudioSource audioSource;
+    private AudioSource angryAudioSource;
+
+    public AudioClip[] footstepSounds;
+    private AudioSource footstepAudioSource;
+
+    private float footstepTimer;
+    public float footstepInterval = 0.5f;  // Time interval between footstep sounds
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        audioSource = animator.GetComponent<AudioSource>();
-        if (audioSource == null)
+        // Get the two audio sources for the zombie
+        AudioSource[] audioSources = animator.GetComponents<AudioSource>();
+
+        // Assume the first AudioSource is for angry sounds, and the second is for footsteps
+        angryAudioSource = audioSources[0];
+        footstepAudioSource = audioSources[1];
+
+        if (angryAudioSource == null)
         {
-            Debug.Log("ZombieAggroState: Cannot get AudioSource.");
+            Debug.Log("ZombieAggroState: Cannot get angryAudioSource.");
+        }
+
+        if (footstepAudioSource == null)
+        {
+            Debug.Log("ZombieAggroState: Cannot get footstepAudioSource.");
+        }
+
+        if (footstepSounds.Length == 0)
+        {
+            Debug.Log("ZombieAggroState: Footstep sound list is empty.");
         }
 
         if (angrySounds.Length == 0)
@@ -21,32 +44,43 @@ public class ZombieAggroState : StateMachineBehaviour
         }
 
         // Play a random angry sound
-        if (audioSource.isPlaying)
+        if (angryAudioSource.isPlaying)
         {
-            audioSource.Stop();
+            angryAudioSource.Stop();
         }
         AudioClip randomClip = angrySounds[Random.Range(0, angrySounds.Length)];
-        audioSource.clip = randomClip;
-        audioSource.Play();
+        angryAudioSource.PlayOneShot(randomClip, 0.25f);
+
+        footstepTimer = 0f;  // Initialize the footstep timer
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Play a random idle sound
-        if (!audioSource.isPlaying)
+        // Handle footstep sounds with a timer
+        footstepTimer += Time.deltaTime;
+
+        if (footstepTimer >= footstepInterval && !footstepAudioSource.isPlaying)
+        {
+            AudioClip footstepClip = footstepSounds[Random.Range(0, footstepSounds.Length)];
+            footstepAudioSource.PlayOneShot(footstepClip);
+            footstepTimer = 0f;  // Reset the timer after playing a footstep
+        }
+
+        // Play a random angry sound
+        if (!angryAudioSource.isPlaying)
         {
             AudioClip randomClip = angrySounds[Random.Range(0, angrySounds.Length)];
-            audioSource.PlayOneShot(randomClip);
+            angryAudioSource.PlayOneShot(randomClip, 0.25f);
         }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (audioSource.isPlaying)
+        if (angryAudioSource.isPlaying)
         {
-            audioSource.Stop();
+            angryAudioSource.Stop();
         }
     }
 

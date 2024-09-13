@@ -90,7 +90,6 @@ public class Zombie : Object
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", true);
-        yield return new WaitForSeconds(audioSource.clip.length);
         yield return new WaitForSeconds(6f);
         Destroy(transform.gameObject);
     }
