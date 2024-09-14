@@ -12,7 +12,7 @@ public class WeaponDatabaseWrapper
 
 public class GameController : MonoBehaviour
 {
-    private GameController instance;
+    public static GameController instance { get; private set; }
     private Button shopToggle;
     private GameObject shopDisplay;
     private GameObject toggle;
@@ -38,6 +38,7 @@ public class GameController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M)){
             toggle.gameObject.SetActive(!toggle.activeInHierarchy);
         }
+        money = GameObject.Find("GameController").GetComponent<GameController>().money;
     }
     void OnApplicationQuit(){
         SaveData();
@@ -64,10 +65,15 @@ public class GameController : MonoBehaviour
 
     public void FreshData()
     {
+        string filePath = "gunData.json";
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+            Debug.Log("gunData.json file deleted.");
+        }
         PlayerPrefs.DeleteAll();
         weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
         
-        // Deep copy the weaponList
         weaponDatabase.weaponList = new List<WeaponData>();
         foreach (WeaponData weapon in originData.weaponList)
         {

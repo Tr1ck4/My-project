@@ -43,6 +43,7 @@ public class ShopSystem : MonoBehaviour
     }
 
     void Update(){
+        gameController = GameObject.Find("GameController").GetComponent<GameController>();
         database = gameController.weaponDatabase;
         moneyText.text = "$" + gameController.money.ToString();
     }

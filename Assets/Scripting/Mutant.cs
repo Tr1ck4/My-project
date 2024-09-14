@@ -250,6 +250,7 @@ public class MutantZombie : Object
     // Death logic
     IEnumerator DieRoutine()
     {
+        GameObject.Find("GameController").GetComponent<GameController>().money += 500;
         animator.SetBool("isDead", true);
         // Play the death sound if the audio source is available
         if (audioSource != null && deathSound != null)

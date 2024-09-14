@@ -39,8 +39,10 @@ public class Setting : MonoBehaviour
         ammorInput.onEndEdit.AddListener(delegate { ValidateAmmor(); });
         moneyInput.onEndEdit.AddListener(delegate { ValidateMoney(); });
         saveButton.onClick.AddListener(() => {
+            GameObject.Find("GameController").GetComponent<GameController>().SaveData();
             Destroy(GameObject.Find("SettingModal"));
             Destroy(GameObject.Find("GameController"));
+            Destroy(GameObject.Find("ShopSystem"));
             SceneManager.LoadScene("HomeScreen");
         });
     }
