@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class ZombieCheck : MonoBehaviour
 {
@@ -21,8 +22,8 @@ public class ZombieCheck : MonoBehaviour
             GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
             if (zombies.Length == 0)
             {
-                Debug.Log("No zombies found. Returning to the main scene.");
-
+                RigidbodyFirstPersonController controller = GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>();
+                controller.Die();
                 // Load the main scene
                 SceneManager.LoadScene(mainSceneName);
                 yield break;

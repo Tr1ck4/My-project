@@ -15696,89 +15696,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1339203800
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1339203802}
-  - component: {fileID: 1339203801}
-  m_Layer: 0
-  m_Name: Water4AdvancedReflectionMainCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!20 &1339203801
-Camera:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339203800}
-  m_Enabled: 0
-  serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
-  m_projectionMatrixMode: 0
-  m_GateFitMode: 2
-  m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
-  m_LensShift: {x: 0, y: 0}
-  m_NormalizedViewPortRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
-  m_Depth: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967279
-  m_RenderingPath: 1
-  m_TargetTexture: {fileID: 0}
-  m_TargetDisplay: 0
-  m_TargetEye: 3
-  m_HDR: 1
-  m_AllowMSAA: 1
-  m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
-  m_OcclusionCulling: 1
-  m_StereoConvergence: 10
-  m_StereoSeparation: 0.022
---- !u!4 &1339203802
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339203800}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.032184128, y: 0.9671447, z: 0.15835923, w: -0.1962592}
-  m_LocalPosition: {x: 130.83858, y: -1.0189095, z: 1885.1661}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &1344256707
 Mesh:
   m_ObjectHideFlags: 0
@@ -16077,7 +15994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2188491018255026515, guid: 98413124e96a2c6489e7e076d8bcdd17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 14.28
+      value: 14.286
       objectReference: {fileID: 0}
     - target: {fileID: 2188491018255026515, guid: 98413124e96a2c6489e7e076d8bcdd17, type: 3}
       propertyPath: m_LocalPosition.z
@@ -20767,7 +20684,7 @@ MonoBehaviour:
   Health: 1000
   Speed: 100
   Ammor: 0
-  Damage: 0
+  Damage: 58.98
   body: {fileID: 1658635901}
   bloodSplatterPrefabs:
   - {fileID: 100000, guid: 358b75ea5451cf143ab19029a189097d, type: 3}
@@ -21493,7 +21410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2188491018255026515, guid: 98413124e96a2c6489e7e076d8bcdd17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.806997
+      value: 13.86
       objectReference: {fileID: 0}
     - target: {fileID: 2188491018255026515, guid: 98413124e96a2c6489e7e076d8bcdd17, type: 3}
       propertyPath: m_LocalPosition.z
@@ -27838,7 +27755,6 @@ SceneRoots:
   - {fileID: 467884202}
   - {fileID: 1563534134}
   - {fileID: 887161928}
-  - {fileID: 1339203802}
   - {fileID: 1377598169}
   - {fileID: 1760998203}
   - {fileID: 2036816342}

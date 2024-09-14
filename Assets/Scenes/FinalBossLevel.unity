@@ -21926,19 +21926,7 @@ MonoBehaviour:
   - {fileID: 100000, guid: 14987c031123b98408a165a8bf1288d4, type: 3}
   - {fileID: 100000, guid: 43dd1ba2a5dde844eb01240da13ab96b, type: 3}
   splatterLifetime: 5
-  inventory:
-  - weaponName: M4
-    damage: 8
-    Mag: 0
-    maxMag: 30
-    Ammo: 100
-    ShootSpeed: 10
-    range: 100
-    price: 0
-    updateCost: 0
-    weaponPrefab: {fileID: 5559442646728411565, guid: 38c96234ac22ee04697a4f3604688996, type: 3}
-    weaponImage: {fileID: 0}
-    isSold: 0
+  inventory: []
   currentWeaponIndex: 0
   mainCameraTransform: {fileID: 235181714}
   weaponDB: {fileID: 11400000, guid: 5252af586ead5dd4ab067d6204f92d4c, type: 2}
