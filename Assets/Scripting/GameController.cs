@@ -64,6 +64,7 @@ public class GameController : MonoBehaviour
 
     public void FreshData()
     {
+        PlayerPrefs.DeleteAll();
         weaponDatabase = ScriptableObject.CreateInstance<WeaponDatabase>();
         
         // Deep copy the weaponList

@@ -5,7 +5,7 @@ using TMPro;
 public class WeaponUpgradeHandler : MonoBehaviour
 {
     private PlayerData playerData;
-    private WeaponData weaponData;
+    public WeaponData weaponData;
     private ShopSystem shopSystem;
     public Image weaponImage;
     public TMP_Text weaponText;
@@ -35,10 +35,25 @@ public class WeaponUpgradeHandler : MonoBehaviour
     private float fireRateUpgradeCost;
     private float rangeUpgradeCost;
 
+    private int maxUpgrades = 30;
+
+    private int damageUpgradeCount;
+    private int maxMagUpgradeCount;
+    private int ammoUpgradeCount;
+    private int fireRateUpgradeCount;
+    private int rangeUpgradeCount;
+
     void Start()
     {
         playerData = GameObject.Find("GameController").GetComponent<PlayerData>();
         shopSystem = GameObject.Find("ShopSystem").GetComponent<ShopSystem>();
+
+        damageUpgradeCount = PlayerPrefs.GetInt(weaponData.weaponName + "_damageUpgradeCount", 0);
+        maxMagUpgradeCount = PlayerPrefs.GetInt(weaponData.weaponName + "_maxMagUpgradeCount", 0);
+        ammoUpgradeCount = PlayerPrefs.GetInt(weaponData.weaponName + "_ammoUpgradeCount", 0);
+        fireRateUpgradeCount = PlayerPrefs.GetInt(weaponData.weaponName + "_fireRateUpgradeCount", 0);
+        rangeUpgradeCount = PlayerPrefs.GetInt(weaponData.weaponName + "_rangeUpgradeCount", 0);
+
         CheckButtonStates();
     }
 
@@ -89,11 +104,11 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     void CheckButtonStates()
     {
-        UdamageButton.interactable = shopSystem.gameController.money >= damageUpgradeCost;
-        UmaxMagButton.interactable = shopSystem.gameController.money >= maxMagUpgradeCost;
-        UammoButton.interactable = shopSystem.gameController.money >= ammoUpgradeCost;
-        UfirerateButton.interactable = shopSystem.gameController.money >= fireRateUpgradeCost;
-        UrangeButton.interactable = shopSystem.gameController.money >= rangeUpgradeCost;
+        UdamageButton.interactable = shopSystem.gameController.money >= damageUpgradeCost && damageUpgradeCount < maxUpgrades;
+        UmaxMagButton.interactable = shopSystem.gameController.money >= maxMagUpgradeCost && maxMagUpgradeCount < maxUpgrades;
+        UammoButton.interactable = shopSystem.gameController.money >= ammoUpgradeCost && ammoUpgradeCount < maxUpgrades;
+        UfirerateButton.interactable = shopSystem.gameController.money >= fireRateUpgradeCost && fireRateUpgradeCount < maxUpgrades;
+        UrangeButton.interactable = shopSystem.gameController.money >= rangeUpgradeCost && rangeUpgradeCount < maxUpgrades;
     }
 
     public void BuyGun()
@@ -116,11 +131,14 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeDamage()
     {
-        if (shopSystem.gameController.money >= damageUpgradeCost)
+        if (damageUpgradeCount < maxUpgrades && shopSystem.gameController.money >= damageUpgradeCost)
         {
             weaponData.damage += 1;
             damageText.text = "Damage: " + weaponData.damage;
-            shopSystem.DeductMoney((float)damageUpgradeCost); 
+            shopSystem.DeductMoney((float)damageUpgradeCost);
+            damageUpgradeCount++;
+
+            PlayerPrefs.SetInt(weaponData.weaponName + "_damageUpgradeCount", damageUpgradeCount);
 
             CheckButtonStates();
         }
@@ -128,11 +146,14 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeMaxMag()
     {
-        if (shopSystem.gameController.money >= maxMagUpgradeCost)
+        if (maxMagUpgradeCount < maxUpgrades && shopSystem.gameController.money >= maxMagUpgradeCost)
         {
             weaponData.maxMag += 1;
             maxMagText.text = "Max Mag: " + weaponData.maxMag;
             shopSystem.DeductMoney((float)maxMagUpgradeCost);
+            maxMagUpgradeCount++;
+
+            PlayerPrefs.SetInt(weaponData.weaponName + "_maxMagUpgradeCount", maxMagUpgradeCount);
 
             CheckButtonStates();
         }
@@ -140,11 +161,14 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeAmmo()
     {
-        if (shopSystem.gameController.money >= ammoUpgradeCost)
+        if (ammoUpgradeCount < maxUpgrades && shopSystem.gameController.money >= ammoUpgradeCost)
         {
             weaponData.Ammo += 2;
             ammoText.text = "Ammo: " + weaponData.Ammo;
             shopSystem.DeductMoney((float)ammoUpgradeCost);
+            ammoUpgradeCount++;
+
+            PlayerPrefs.SetInt(weaponData.weaponName + "_ammoUpgradeCount", ammoUpgradeCount);
 
             CheckButtonStates();
         }
@@ -152,11 +176,14 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeFireRate()
     {
-        if (shopSystem.gameController.money >= fireRateUpgradeCost)
+        if (fireRateUpgradeCount < maxUpgrades && shopSystem.gameController.money >= fireRateUpgradeCost)
         {
-            weaponData.ShootSpeed -= 0.1f;
+            weaponData.ShootSpeed += 0.1f;
             firerateText.text = "Fire Rate: " + weaponData.ShootSpeed;
             shopSystem.DeductMoney((float)fireRateUpgradeCost);
+            fireRateUpgradeCount++;
+
+            PlayerPrefs.SetInt(weaponData.weaponName + "_fireRateUpgradeCount", fireRateUpgradeCount);
 
             CheckButtonStates();
         }
@@ -164,11 +191,14 @@ public class WeaponUpgradeHandler : MonoBehaviour
 
     public void UpgradeRange()
     {
-        if (shopSystem.gameController.money >= rangeUpgradeCost)
+        if (rangeUpgradeCount < maxUpgrades && shopSystem.gameController.money >= rangeUpgradeCost)
         {
             weaponData.range += 2;
             rangeText.text = "Range: " + weaponData.range;
             shopSystem.DeductMoney((float)rangeUpgradeCost);
+            rangeUpgradeCount++;
+
+            PlayerPrefs.SetInt(weaponData.weaponName + "_rangeUpgradeCount", rangeUpgradeCount);
 
             CheckButtonStates();
         }
