@@ -7,6 +7,9 @@ TagManager:
   - Object
   - AmmoBox
   - Zombie
+  - Metal
+  - Grass
+  - Rock
   layers:
   - Default
   - TransparentFX

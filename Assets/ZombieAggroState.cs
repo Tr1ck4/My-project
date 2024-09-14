@@ -10,6 +10,10 @@ public class ZombieAggroState : StateMachineBehaviour
     public AudioClip[] footstepSounds;
     private AudioSource footstepAudioSource;
 
+    public float angrySoundScale = 1.0f;
+    public float footstepSoundScale = 1.0f;
+
+
     private float footstepTimer;
     public float footstepInterval = 0.5f;  // Time interval between footstep sounds
 
@@ -49,7 +53,7 @@ public class ZombieAggroState : StateMachineBehaviour
             angryAudioSource.Stop();
         }
         AudioClip randomClip = angrySounds[Random.Range(0, angrySounds.Length)];
-        angryAudioSource.PlayOneShot(randomClip, 0.25f);
+        angryAudioSource.PlayOneShot(randomClip, angrySoundScale);
 
         footstepTimer = 0f;  // Initialize the footstep timer
     }
@@ -62,8 +66,12 @@ public class ZombieAggroState : StateMachineBehaviour
 
         if (footstepTimer >= footstepInterval && !footstepAudioSource.isPlaying)
         {
+            if (footstepAudioSource.isPlaying)
+            {
+                footstepAudioSource.Stop();
+            }
             AudioClip footstepClip = footstepSounds[Random.Range(0, footstepSounds.Length)];
-            footstepAudioSource.PlayOneShot(footstepClip);
+            footstepAudioSource.PlayOneShot(footstepClip, footstepSoundScale);
             footstepTimer = 0f;  // Reset the timer after playing a footstep
         }
 
@@ -71,7 +79,7 @@ public class ZombieAggroState : StateMachineBehaviour
         if (!angryAudioSource.isPlaying)
         {
             AudioClip randomClip = angrySounds[Random.Range(0, angrySounds.Length)];
-            angryAudioSource.PlayOneShot(randomClip, 0.25f);
+            angryAudioSource.PlayOneShot(randomClip, angrySoundScale);
         }
     }
 
@@ -81,6 +89,11 @@ public class ZombieAggroState : StateMachineBehaviour
         if (angryAudioSource.isPlaying)
         {
             angryAudioSource.Stop();
+        }
+
+        if (footstepAudioSource.isPlaying)
+        {
+            footstepAudioSource.Stop();
         }
     }
 

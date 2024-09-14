@@ -6,6 +6,8 @@ public class ZombieDeathState : StateMachineBehaviour
 {
     public AudioClip[] deathSounds;
     private AudioSource audioSource;
+
+    public float deathSoundScale = 1.0f;
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -26,8 +28,7 @@ public class ZombieDeathState : StateMachineBehaviour
             audioSource.Stop();
         }
         AudioClip randomClip = deathSounds[Random.Range(0, deathSounds.Length)];
-        audioSource.clip = randomClip;
-        audioSource.Play();
+        audioSource.PlayOneShot(randomClip, deathSoundScale);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

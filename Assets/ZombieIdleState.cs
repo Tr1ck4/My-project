@@ -6,6 +6,7 @@ public class ZombieIdleState : StateMachineBehaviour
 {
     public AudioClip[] idleSounds;
     private AudioSource audioSource;
+    public float volumeScale = 1.0f;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -21,9 +22,9 @@ public class ZombieIdleState : StateMachineBehaviour
             Debug.Log("ZombieIdleState: Idle sound list is empty.");
         }
 
-        // Play a random idle sound
-        AudioClip randomClip = idleSounds[Random.Range(0, idleSounds.Length)];
-        audioSource.PlayOneShot(randomClip, 0.25f);
+        //// Play a random idle sound
+        //AudioClip randomClip = idleSounds[Random.Range(0, idleSounds.Length)];
+        //audioSource.PlayOneShot(randomClip, volumeScale);
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,7 +34,7 @@ public class ZombieIdleState : StateMachineBehaviour
         if (!audioSource.isPlaying)
         {
             AudioClip randomClip = idleSounds[Random.Range(0, idleSounds.Length)];
-            audioSource.PlayOneShot(randomClip, 0.25f);
+            audioSource.PlayOneShot(randomClip, volumeScale);
         }
     }
 

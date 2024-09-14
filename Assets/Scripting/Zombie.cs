@@ -8,11 +8,12 @@ public class Zombie : Object
     public Animator animator;
     public float RotationSpeed = 5f;
 
-    public AudioSource audioSource;
-
     private bool isAttacking = false;
 
     public float price;
+    public AudioClip deathSound; // Drag your death sound here in the Inspector
+    private AudioSource audioSource;
+    public float deathSoundVolumeScale = 1.0f;
 
     protected void Start(){
         animator.SetBool("isWalking", false);
@@ -94,6 +95,11 @@ public class Zombie : Object
         animator.SetBool("isWalking", false);
         animator.SetBool("isNear", false);
         animator.SetBool("isDead", true);
+        // Play the death sound if the audio source is available
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound, deathSoundVolumeScale);
+        }
         yield return new WaitForSeconds(6f);
         Destroy(transform.gameObject);
     }

@@ -20,9 +20,16 @@ public class MutantZombie : Object
     private bool isAttacking = false;
     private bool isAggro = false;
 
+    public AudioClip deathSound; // Drag your death sound here in the Inspector
+    private AudioSource audioSource;
+    public float deathSoundVolumeScale = 1.0f;
+
+
     void Start()
     {
         animator.SetBool("isIdle", true);
+
+        audioSource = GetComponent<AudioSource>();  // Get AudioSource component
 
         // Find the player GameObject by tag
         if (playerGO == null)
@@ -244,8 +251,18 @@ public class MutantZombie : Object
     IEnumerator DieRoutine()
     {
         animator.SetBool("isDead", true);
+        // Play the death sound if the audio source is available
+        if (audioSource != null && deathSound != null)
+        {
+            audioSource.PlayOneShot(deathSound, deathSoundVolumeScale);
+        }
         yield return new WaitForSeconds(6f);  // Dying animation time
-        Destroy(gameObject);
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.normalizedTime >= 1.0f)
+        {
+            Destroy(gameObject);
+        }
+
     }
 
     public override void Die()
