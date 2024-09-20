@@ -1,0 +1,282 @@
+
+        
+            void ChainSurfaceFunction(inout Surface l, inout ShaderData d)
+            {
+                 %SURFACEFUNCTION0% Ext_SurfaceFunction0(l, d);
+                 %SURFACEFUNCTION1% Ext_SurfaceFunction1(l, d);
+                 %SURFACEFUNCTION2% Ext_SurfaceFunction2(l, d);
+                 %SURFACEFUNCTION3% Ext_SurfaceFunction3(l, d);
+                 %SURFACEFUNCTION4% Ext_SurfaceFunction4(l, d);
+                 %SURFACEFUNCTION5% Ext_SurfaceFunction5(l, d);
+                 %SURFACEFUNCTION6% Ext_SurfaceFunction6(l, d);
+                 %SURFACEFUNCTION7% Ext_SurfaceFunction7(l, d);
+                 %SURFACEFUNCTION8% Ext_SurfaceFunction8(l, d);
+                 %SURFACEFUNCTION9% Ext_SurfaceFunction9(l, d);
+		           %SURFACEFUNCTION10% Ext_SurfaceFunction10(l, d);
+                 %SURFACEFUNCTION11% Ext_SurfaceFunction11(l, d);
+                 %SURFACEFUNCTION12% Ext_SurfaceFunction12(l, d);
+                 %SURFACEFUNCTION13% Ext_SurfaceFunction13(l, d);
+                 %SURFACEFUNCTION14% Ext_SurfaceFunction14(l, d);
+                 %SURFACEFUNCTION15% Ext_SurfaceFunction15(l, d);
+                 %SURFACEFUNCTION16% Ext_SurfaceFunction16(l, d);
+                 %SURFACEFUNCTION17% Ext_SurfaceFunction17(l, d);
+                 %SURFACEFUNCTION18% Ext_SurfaceFunction18(l, d);
+		           %SURFACEFUNCTION19% Ext_SurfaceFunction19(l, d);
+                 %SURFACEFUNCTION20% Ext_SurfaceFunction20(l, d);
+                 %SURFACEFUNCTION21% Ext_SurfaceFunction21(l, d);
+                 %SURFACEFUNCTION22% Ext_SurfaceFunction22(l, d);
+                 %SURFACEFUNCTION23% Ext_SurfaceFunction23(l, d);
+                 %SURFACEFUNCTION24% Ext_SurfaceFunction24(l, d);
+                 %SURFACEFUNCTION25% Ext_SurfaceFunction25(l, d);
+                 %SURFACEFUNCTION26% Ext_SurfaceFunction26(l, d);
+                 %SURFACEFUNCTION27% Ext_SurfaceFunction27(l, d);
+                 %SURFACEFUNCTION28% Ext_SurfaceFunction28(l, d);
+		           %SURFACEFUNCTION29% Ext_SurfaceFunction29(l, d);
+            }
+
+            void ChainModifyVertex(inout VertexData v, inout VertexToPixel v2p, float4 time)
+            {
+                 ExtraV2F d;
+                 
+                 ZERO_INITIALIZE(ExtraV2F, d);
+                 ZERO_INITIALIZE(Blackboard, d.blackboard);
+                 // due to motion vectors in HDRP, we need to use the last
+                 // time in certain spots. So if you are going to use _Time to adjust vertices,
+                 // you need to use this time or motion vectors will break. 
+                 d.time = time;
+
+                 %MODIFYVERTEX0%  Ext_ModifyVertex0(v, d);
+                 %MODIFYVERTEX1% Ext_ModifyVertex1(v, d);
+                 %MODIFYVERTEX2% Ext_ModifyVertex2(v, d);
+                 %MODIFYVERTEX3% Ext_ModifyVertex3(v, d);
+                 %MODIFYVERTEX4% Ext_ModifyVertex4(v, d);
+                 %MODIFYVERTEX5% Ext_ModifyVertex5(v, d);
+                 %MODIFYVERTEX6% Ext_ModifyVertex6(v, d);
+                 %MODIFYVERTEX7% Ext_ModifyVertex7(v, d);
+                 %MODIFYVERTEX8% Ext_ModifyVertex8(v, d);
+                 %MODIFYVERTEX9% Ext_ModifyVertex9(v, d);
+                 %MODIFYVERTEX10% Ext_ModifyVertex10(v, d);
+                 %MODIFYVERTEX11% Ext_ModifyVertex11(v, d);
+                 %MODIFYVERTEX12% Ext_ModifyVertex12(v, d);
+                 %MODIFYVERTEX13% Ext_ModifyVertex13(v, d);
+                 %MODIFYVERTEX14% Ext_ModifyVertex14(v, d);
+                 %MODIFYVERTEX15% Ext_ModifyVertex15(v, d);
+                 %MODIFYVERTEX16% Ext_ModifyVertex16(v, d);
+                 %MODIFYVERTEX17% Ext_ModifyVertex17(v, d);
+                 %MODIFYVERTEX18% Ext_ModifyVertex18(v, d);
+                 %MODIFYVERTEX19% Ext_ModifyVertex19(v, d);
+                 %MODIFYVERTEX20% Ext_ModifyVertex20(v, d);
+                 %MODIFYVERTEX21% Ext_ModifyVertex21(v, d);
+                 %MODIFYVERTEX22% Ext_ModifyVertex22(v, d);
+                 %MODIFYVERTEX23% Ext_ModifyVertex23(v, d);
+                 %MODIFYVERTEX24% Ext_ModifyVertex24(v, d);
+                 %MODIFYVERTEX25% Ext_ModifyVertex25(v, d);
+                 %MODIFYVERTEX26% Ext_ModifyVertex26(v, d);
+                 %MODIFYVERTEX27% Ext_ModifyVertex27(v, d);
+                 %MODIFYVERTEX28% Ext_ModifyVertex28(v, d);
+                 %MODIFYVERTEX29% Ext_ModifyVertex29(v, d);
+
+
+                 %EXTRAV2F0REQUIRE% #if %EXTRAV2F0REQUIREKEY%
+                 %EXTRAV2F0% v2p.extraV2F0 = d.extraV2F0;
+                 %EXTRAV2F0REQUIRE% #endif
+
+                 %EXTRAV2F1REQUIRE% #if %EXTRAV2F1REQUIREKEY%
+                 %EXTRAV2F1% v2p.extraV2F1 = d.extraV2F1;
+                 %EXTRAV2F1REQUIRE% #endif
+
+                 %EXTRAV2F2REQUIRE% #if %EXTRAV2F2REQUIREKEY%
+                 %EXTRAV2F2% v2p.extraV2F2 = d.extraV2F2;
+                 %EXTRAV2F2REQUIRE% #endif
+
+                 %EXTRAV2F3REQUIRE% #if %EXTRAV2F3REQUIREKEY%
+                 %EXTRAV2F3% v2p.extraV2F3 = d.extraV2F3;
+                 %EXTRAV2F3REQUIRE% #endif
+
+                 %EXTRAV2F4REQUIRE% #if %EXTRAV2F4REQUIREKEY%
+                 %EXTRAV2F4% v2p.extraV2F4 = d.extraV2F4;
+                 %EXTRAV2F4REQUIRE% #endif
+
+                 %EXTRAV2F5REQUIRE% #if %EXTRAV2F5REQUIREKEY%
+                 %EXTRAV2F5% v2p.extraV2F5 = d.extraV2F5;
+                 %EXTRAV2F5REQUIRE% #endif
+
+                 %EXTRAV2F6REQUIRE% #if %EXTRAV2F6REQUIREKEY%
+                 %EXTRAV2F6% v2p.extraV2F6 = d.extraV2F6;
+                 %EXTRAV2F6REQUIRE% #endif
+
+                 %EXTRAV2F7REQUIRE% #if %EXTRAV2F7REQUIREKEY%
+                 %EXTRAV2F7% v2p.extraV2F7 = d.extraV2F7;
+                 %EXTRAV2F7REQUIRE% #endif
+            }
+
+            void ChainModifyTessellatedVertex(inout VertexData v, inout VertexToPixel v2p)
+            {
+               ExtraV2F d;
+               ZERO_INITIALIZE(ExtraV2F, d);
+               ZERO_INITIALIZE(Blackboard, d.blackboard);
+
+               %EXTRAV2F0REQUIRE% #if %EXTRAV2F0REQUIREKEY%
+               %EXTRAV2F0% d.extraV2F0 = v2p.extraV2F0;
+               %EXTRAV2F0REQUIRE% #endif
+
+               %EXTRAV2F1REQUIRE% #if %EXTRAV2F1REQUIREKEY%
+               %EXTRAV2F1% d.extraV2F1 = v2p.extraV2F1;
+               %EXTRAV2F1REQUIRE% #endif
+
+               %EXTRAV2F2REQUIRE% #if %EXTRAV2F2REQUIREKEY%
+               %EXTRAV2F2% d.extraV2F2 = v2p.extraV2F2;
+               %EXTRAV2F2REQUIRE% #endif
+
+               %EXTRAV2F3REQUIRE% #if %EXTRAV2F3REQUIREKEY%
+               %EXTRAV2F3% d.extraV2F3 = v2p.extraV2F3;
+               %EXTRAV2F3REQUIRE% #endif
+
+               %EXTRAV2F4REQUIRE% #if %EXTRAV2F4REQUIREKEY%
+               %EXTRAV2F4% d.extraV2F4 = v2p.extraV2F4;
+               %EXTRAV2F4REQUIRE% #endif
+
+               %EXTRAV2F5REQUIRE% #if %EXTRAV2F5REQUIREKEY%
+               %EXTRAV2F5% d.extraV2F5 = v2p.extraV2F5;
+               %EXTRAV2F5REQUIRE% #endif
+
+               %EXTRAV2F6REQUIRE% #if %EXTRAV2F6REQUIREKEY%
+               %EXTRAV2F6% d.extraV2F6 = v2p.extraV2F6;
+               %EXTRAV2F6REQUIRE% #endif
+
+               %EXTRAV2F7REQUIRE% #if %EXTRAV2F7REQUIREKEY%
+               %EXTRAV2F7% d.extraV2F7 = v2p.extraV2F7;
+               %EXTRAV2F7REQUIRE% #endif
+
+
+               %DISPLACEVERTEX0% Ext_ModifyTessellatedVertex0(v, d);
+               %DISPLACEVERTEX1% Ext_ModifyTessellatedVertex1(v, d);
+               %DISPLACEVERTEX2% Ext_ModifyTessellatedVertex2(v, d);
+               %DISPLACEVERTEX3% Ext_ModifyTessellatedVertex3(v, d);
+               %DISPLACEVERTEX4% Ext_ModifyTessellatedVertex4(v, d);
+               %DISPLACEVERTEX5% Ext_ModifyTessellatedVertex5(v, d);
+               %DISPLACEVERTEX6% Ext_ModifyTessellatedVertex6(v, d);
+               %DISPLACEVERTEX7% Ext_ModifyTessellatedVertex7(v, d);
+               %DISPLACEVERTEX8% Ext_ModifyTessellatedVertex8(v, d);
+               %DISPLACEVERTEX9% Ext_ModifyTessellatedVertex9(v, d);
+               %DISPLACEVERTEX10% Ext_ModifyTessellatedVertex10(v, d);
+               %DISPLACEVERTEX11% Ext_ModifyTessellatedVertex11(v, d);
+               %DISPLACEVERTEX12% Ext_ModifyTessellatedVertex12(v, d);
+               %DISPLACEVERTEX13% Ext_ModifyTessellatedVertex13(v, d);
+               %DISPLACEVERTEX14% Ext_ModifyTessellatedVertex14(v, d);
+               %DISPLACEVERTEX15% Ext_ModifyTessellatedVertex15(v, d);
+               %DISPLACEVERTEX16% Ext_ModifyTessellatedVertex16(v, d);
+               %DISPLACEVERTEX17% Ext_ModifyTessellatedVertex17(v, d);
+               %DISPLACEVERTEX18% Ext_ModifyTessellatedVertex18(v, d);
+               %DISPLACEVERTEX19% Ext_ModifyTessellatedVertex19(v, d);
+               %DISPLACEVERTEX20% Ext_ModifyTessellatedVertex20(v, d);
+               %DISPLACEVERTEX21% Ext_ModifyTessellatedVertex21(v, d);
+               %DISPLACEVERTEX22% Ext_ModifyTessellatedVertex22(v, d);
+               %DISPLACEVERTEX23% Ext_ModifyTessellatedVertex23(v, d);
+               %DISPLACEVERTEX24% Ext_ModifyTessellatedVertex24(v, d);
+               %DISPLACEVERTEX25% Ext_ModifyTessellatedVertex25(v, d);
+               %DISPLACEVERTEX26% Ext_ModifyTessellatedVertex26(v, d);
+               %DISPLACEVERTEX27% Ext_ModifyTessellatedVertex27(v, d);
+               %DISPLACEVERTEX28% Ext_ModifyTessellatedVertex28(v, d);
+               %DISPLACEVERTEX29% Ext_ModifyTessellatedVertex29(v, d);
+
+               %EXTRAV2F0REQUIRE% #if %EXTRAV2F0REQUIREKEY%
+               %EXTRAV2F0% v2p.extraV2F0 = d.extraV2F0;
+               %EXTRAV2F0REQUIRE% #endif
+
+               %EXTRAV2F1REQUIRE% #if %EXTRAV2F1REQUIREKEY%
+               %EXTRAV2F1% v2p.extraV2F1 = d.extraV2F1;
+               %EXTRAV2F1REQUIRE% #endif
+
+               %EXTRAV2F2REQUIRE% #if %EXTRAV2F2REQUIREKEY%
+               %EXTRAV2F2% v2p.extraV2F2 = d.extraV2F2;
+               %EXTRAV2F2REQUIRE% #endif
+
+               %EXTRAV2F3REQUIRE% #if %EXTRAV2F3REQUIREKEY%
+               %EXTRAV2F3% v2p.extraV2F3 = d.extraV2F3;
+               %EXTRAV2F3REQUIRE% #endif
+
+               %EXTRAV2F4REQUIRE% #if %EXTRAV2F4REQUIREKEY%
+               %EXTRAV2F4% v2p.extraV2F4 = d.extraV2F4;
+               %EXTRAV2F4REQUIRE% #endif
+
+               %EXTRAV2F5REQUIRE% #if %EXTRAV2F5REQUIREKEY%
+               %EXTRAV2F5% v2p.extraV2F5 = d.extraV2F5;
+               %EXTRAV2F5REQUIRE% #endif
+
+               %EXTRAV2F6REQUIRE% #if %EXTRAV2F6REQUIREKEY%
+               %EXTRAV2F6% v2p.extraV2F6 = d.extraV2F6;
+               %EXTRAV2F6REQUIRE% #endif
+
+               %EXTRAV2F7REQUIRE% #if %EXTRAV2F7REQUIREKEY%
+               %EXTRAV2F7% v2p.extraV2F7 = d.extraV2F7;
+               %EXTRAV2F7REQUIRE% #endif
+            }
+
+            void ChainFinalColorForward(inout Surface l, inout ShaderData d, inout half4 color)
+            {
+               %FINALCOLORFORWARD0%   Ext_FinalColorForward0(l, d, color);
+               %FINALCOLORFORWARD1%   Ext_FinalColorForward1(l, d, color);
+               %FINALCOLORFORWARD2%   Ext_FinalColorForward2(l, d, color);
+               %FINALCOLORFORWARD3%   Ext_FinalColorForward3(l, d, color);
+               %FINALCOLORFORWARD4%   Ext_FinalColorForward4(l, d, color);
+               %FINALCOLORFORWARD5%   Ext_FinalColorForward5(l, d, color);
+               %FINALCOLORFORWARD6%   Ext_FinalColorForward6(l, d, color);
+               %FINALCOLORFORWARD7%   Ext_FinalColorForward7(l, d, color);
+               %FINALCOLORFORWARD8%   Ext_FinalColorForward8(l, d, color);
+               %FINALCOLORFORWARD9%   Ext_FinalColorForward9(l, d, color);
+               %FINALCOLORFORWARD10%  Ext_FinalColorForward10(l, d, color);
+               %FINALCOLORFORWARD11%  Ext_FinalColorForward11(l, d, color);
+               %FINALCOLORFORWARD12%  Ext_FinalColorForward12(l, d, color);
+               %FINALCOLORFORWARD13%  Ext_FinalColorForward13(l, d, color);
+               %FINALCOLORFORWARD14%  Ext_FinalColorForward14(l, d, color);
+               %FINALCOLORFORWARD15%  Ext_FinalColorForward15(l, d, color);
+               %FINALCOLORFORWARD16%  Ext_FinalColorForward16(l, d, color);
+               %FINALCOLORFORWARD17%  Ext_FinalColorForward17(l, d, color);
+               %FINALCOLORFORWARD18%  Ext_FinalColorForward18(l, d, color);
+               %FINALCOLORFORWARD19%  Ext_FinalColorForward19(l, d, color);
+               %FINALCOLORFORWARD20%  Ext_FinalColorForward20(l, d, color);
+               %FINALCOLORFORWARD21%  Ext_FinalColorForward21(l, d, color);
+               %FINALCOLORFORWARD22%  Ext_FinalColorForward22(l, d, color);
+               %FINALCOLORFORWARD23%  Ext_FinalColorForward23(l, d, color);
+               %FINALCOLORFORWARD24%  Ext_FinalColorForward24(l, d, color);
+               %FINALCOLORFORWARD25%  Ext_FinalColorForward25(l, d, color);
+               %FINALCOLORFORWARD26%  Ext_FinalColorForward26(l, d, color);
+               %FINALCOLORFORWARD27%  Ext_FinalColorForward27(l, d, color);
+               %FINALCOLORFORWARD28%  Ext_FinalColorForward28(l, d, color);
+               %FINALCOLORFORWARD29%  Ext_FinalColorForward29(l, d, color);
+            }
+
+            void ChainFinalGBufferStandard(inout Surface s, inout ShaderData d, inout half4 GBuffer0, inout half4 GBuffer1, inout half4 GBuffer2, inout half4 outEmission, inout half4 outShadowMask)
+            {
+               %FINALCOLORGBUFFERSTANDARD0%   Ext_FinalGBufferStandard0(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD1%   Ext_FinalGBufferStandard1(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD2%   Ext_FinalGBufferStandard2(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD3%   Ext_FinalGBufferStandard3(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD4%   Ext_FinalGBufferStandard4(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD5%   Ext_FinalGBufferStandard5(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD6%   Ext_FinalGBufferStandard6(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD7%   Ext_FinalGBufferStandard7(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD8%   Ext_FinalGBufferStandard8(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD9%   Ext_FinalGBufferStandard9(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD10%  Ext_FinalGBufferStandard10(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD11%  Ext_FinalGBufferStandard11(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD12%  Ext_FinalGBufferStandard12(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD13%  Ext_FinalGBufferStandard13(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD14%  Ext_FinalGBufferStandard14(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD15%  Ext_FinalGBufferStandard15(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD16%  Ext_FinalGBufferStandard16(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD17%  Ext_FinalGBufferStandard17(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD18%  Ext_FinalGBufferStandard18(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD19%  Ext_FinalGBufferStandard19(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD20%  Ext_FinalGBufferStandard20(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD21%  Ext_FinalGBufferStandard21(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD22%  Ext_FinalGBufferStandard22(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD23%  Ext_FinalGBufferStandard23(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD24%  Ext_FinalGBufferStandard24(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD25%  Ext_FinalGBufferStandard25(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD26%  Ext_FinalGBufferStandard26(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD27%  Ext_FinalGBufferStandard27(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD28%  Ext_FinalGBufferStandard28(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+               %FINALCOLORGBUFFERSTANDARD29%  Ext_FinalGBufferStandard29(s, d, GBuffer0, GBuffer1, GBuffer2, outEmission, outShadowMask);
+            }

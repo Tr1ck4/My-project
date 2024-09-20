@@ -1,0 +1,47 @@
+﻿Shader "%SHADERNAME%"
+{
+   Properties
+   {
+      %PROPERTIES%
+
+      [HideInInspector] _StencilRef("Vector1 ", Int) = 0
+      [HideInInspector] _StencilWriteMask("Vector1 ", Int) = 3
+      [HideInInspector] _StencilRefDepth("Vector1 ", Int) = 0
+      [HideInInspector] _StencilWriteMaskDepth("Vector1 ", Int) = 32
+      [HideInInspector] _StencilRefMV("Vector1 ", Int) = 128
+      [HideInInspector] _StencilWriteMaskMV("Vector1 ", Int) = 128
+      [HideInInspector] _StencilRefDistortionVec("Vector1 ", Int) = 64
+      [HideInInspector] _StencilWriteMaskDistortionVec("Vector1 ", Int) = 64
+      [HideInInspector] _StencilWriteMaskGBuffer("Vector1 ", Int) = 3
+      [HideInInspector] _StencilRefGBuffer("Vector1 ", Int) = 2
+      [HideInInspector] _ZTestGBuffer("Vector1 ", Int) = 4
+      [HideInInspector] [ToggleUI] _RequireSplitLighting("Boolean", Float) = 0
+      [HideInInspector] [ToggleUI] _ReceivesSSR("Boolean", Float) = 1
+      [HideInInspector] _SurfaceType("Vector1 ", Float) = 0
+      [HideInInspector] [ToggleUI] _ZWrite("Boolean", Float) = 0
+      [HideInInspector] _TransparentSortPriority("Vector1 ", Int) = 0
+      [HideInInspector] _ZTestDepthEqualForOpaque("Vector1 ", Int) = 4
+      [HideInInspector] [Enum(UnityEngine.Rendering.CompareFunction)] _ZTestTransparent("Vector1", Float) = 4
+      [HideInInspector] [ToggleUI] _TransparentBackfaceEnable("Boolean", Float) = 0
+      [HideInInspector] [ToggleUI] _AlphaCutoffEnable("Boolean", Float) = 0
+      [HideInInspector] [ToggleUI] _UseShadowThreshold("Boolean", Float) = 0
+      [HideInInspector] _BlendMode("Float", Float) = 0
+   }
+   SubShader
+   {
+      Tags { "RenderPipeline"="HDRenderPipeline" %TAGS% }
+
+      %SUBSHADERTAGS%
+      %PASSFORWARD%
+      %PASSGBUFFER%
+      %PASSSHADOW%
+      %PASSMETA%
+      %PASSSCENESELECT%
+      %PASSDEPTHONLY%
+      %CUSTOMPREPASS%
+
+   }
+   %DEPENDENCY%
+   %FALLBACK%
+   %CUSTOMEDITOR%
+}

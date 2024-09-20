@@ -1,0 +1,13 @@
+{
+  "name": "com.jbooth.better-shaders",
+  "displayName": "Better Shaders",
+  "version": "1.9.5",
+  "author": {
+    "name": "Jason Booth",
+    "email": "slipster216@gmail.com",
+    "url": "http://jdbtechservices.com/"
+  },
+  "unity": "2019.4",
+  "description": "Surface-shader like generation system for Built-In / URP / HDRP",
+  "type": "tool"
+}

@@ -320,7 +320,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 83041cb4dc7766b48a4342db7511819d, type: 3}
   - {fileID: 8300000, guid: 5ce6bb262e363834db2b5cdef8a21155, type: 3}
   - {fileID: 8300000, guid: 4fb45f9472f5e554c82a5a9c7ba4c739, type: 3}
-  impactSounds: []
+  impactSounds:
+  - {fileID: 8300000, guid: fd35f7e049af64047a03eeab57a6f547, type: 3}
   attackSoundScale: 0.25
   impactSoundScale: 1
 --- !u!114 &1012861034816724156

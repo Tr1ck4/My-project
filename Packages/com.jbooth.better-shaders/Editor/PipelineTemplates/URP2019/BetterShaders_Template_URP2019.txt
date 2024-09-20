@@ -1,0 +1,23 @@
+﻿Shader "%SHADERNAME%"
+{
+   Properties
+   {
+      %PROPERTIES%
+   }
+   SubShader
+   {
+      Tags { %TAGS% }
+
+      %SUBSHADERTAGS%
+      %PASSFORWARD%
+      %PASSSHADOW%
+      %PASSDEPTHONLY%
+      %PASSMETA%
+      %PASS2D%
+      %CUSTOMPREPASS%
+
+   }
+   %DEPENDENCY%
+   %FALLBACK%
+   %CUSTOMEDITOR%
+}

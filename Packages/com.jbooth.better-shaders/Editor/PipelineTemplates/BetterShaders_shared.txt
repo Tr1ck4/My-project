@@ -1,0 +1,415 @@
+﻿
+            
+            // data describing the user output of a pixel
+            struct Surface
+            {
+               half3 Albedo;
+               half Height;
+               half3 Normal;
+               half Smoothness;
+               half3 Emission;
+               half Metallic;
+               half3 Specular;
+               half Occlusion;
+               half SpecularPower; // for simple lighting
+               half Alpha;
+               float outputDepth; // if written, SV_Depth semantic is used. ShaderData.clipPos.z is unused value
+               // HDRP Only
+               half SpecularOcclusion;
+               half SubsurfaceMask;
+               half Thickness;
+               half CoatMask;
+               half CoatSmoothness;
+               half Anisotropy;
+               half IridescenceMask;
+               half IridescenceThickness;
+               int DiffusionProfileHash;
+               float SpecularAAThreshold;
+               float SpecularAAScreenSpaceVariance;
+               // requires _OVERRIDE_BAKEDGI to be defined, but is mapped in all pipelines
+               float3 DiffuseGI;
+               float3 BackDiffuseGI;
+               float3 SpecularGI;
+               // requires _OVERRIDE_SHADOWMASK to be defines
+               float4 ShadowMask;
+            };
+
+            // Data the user declares in blackboard blocks
+            struct Blackboard
+            {
+                %BLACKBOARD%
+                float blackboardDummyData;
+            };
+
+            // data the user might need, this will grow to be big. But easy to strip
+            struct ShaderData
+            {
+               float4 clipPos; // SV_POSITION
+               float3 localSpacePosition;
+               float3 localSpaceNormal;
+               float3 localSpaceTangent;
+        
+               float3 worldSpacePosition;
+               float3 worldSpaceNormal;
+               float3 worldSpaceTangent;
+               float tangentSign;
+
+               float3 worldSpaceViewDir;
+               float3 tangentSpaceViewDir;
+
+               float4 texcoord0;
+               float4 texcoord1;
+               float4 texcoord2;
+               float4 texcoord3;
+
+               float2 screenUV;
+               float4 screenPos;
+
+               float4 vertexColor;
+               bool isFrontFace;
+
+               float4 extraV2F0;
+               float4 extraV2F1;
+               float4 extraV2F2;
+               float4 extraV2F3;
+               float4 extraV2F4;
+               float4 extraV2F5;
+               float4 extraV2F6;
+               float4 extraV2F7;
+
+               float3x3 TBNMatrix;
+               Blackboard blackboard;
+            };
+
+            struct VertexData
+            {
+               #if SHADER_TARGET > 30
+               %VERTEXID% uint vertexID : SV_VertexID;
+               #endif
+               float4 vertex : POSITION;
+               float3 normal : NORMAL;
+               float4 tangent : TANGENT;
+               float4 texcoord0 : TEXCOORD0;
+
+               // optimize out mesh coords when not in use by user or lighting system
+               #if _URP && (_USINGTEXCOORD1 || _PASSMETA || _PASSFORWARD || _PASSGBUFFER)
+                  float4 texcoord1 : TEXCOORD1;
+               #endif
+
+               #if _URP && (_USINGTEXCOORD2 || _PASSMETA || ((_PASSFORWARD || _PASSGBUFFER) && defined(DYNAMICLIGHTMAP_ON)))
+                  float4 texcoord2 : TEXCOORD2;
+               #endif
+
+               #if _STANDARD && (_USINGTEXCOORD1 || (_PASSMETA || ((_PASSFORWARD || _PASSGBUFFER || _PASSFORWARDADD) && LIGHTMAP_ON)))
+                  float4 texcoord1 : TEXCOORD1;
+               #endif
+               #if _STANDARD && (_USINGTEXCOORD2 || (_PASSMETA || ((_PASSFORWARD || _PASSGBUFFER) && DYNAMICLIGHTMAP_ON)))
+                  float4 texcoord2 : TEXCOORD2;
+               #endif
+
+
+               #if _HDRP
+                  float4 texcoord1 : TEXCOORD1;
+                  float4 texcoord2 : TEXCOORD2;
+               #endif
+
+               %TEXCOORD3REQUIRE% #if %TEXCOORD3REQUIREKEY%
+               %UV3% float4 texcoord3 : TEXCOORD3;
+               %TEXCOORD3REQUIRE% #endif
+
+               %VERTEXCOLORREQUIRE% #if %VERTEXCOLORREQUIREKEY%
+               %VERTEXCOLOR% float4 vertexColor : COLOR;
+               %VERTEXCOLORREQUIRE% #endif
+
+               #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+                  float3 previousPositionOS : TEXCOORD4; // Contain previous transform position (in case of skinning for example)
+                  #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                     float3 precomputedVelocity    : TEXCOORD5; // Add Precomputed Velocity (Alembic computes velocities on runtime side).
+                  #endif
+               #endif
+
+               UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct TessVertex 
+            {
+               float4 vertex : INTERNALTESSPOS;
+               float3 normal : NORMAL;
+               float4 tangent : TANGENT;
+               float4 texcoord0 : TEXCOORD0%TEXCOORD0MOD%;
+               float4 texcoord1 : TEXCOORD1%TEXCOORD1MOD%;
+               float4 texcoord2 : TEXCOORD2%TEXCOORD2MOD%;
+
+               %TEXCOORD3REQUIRE% #if %TEXCOORD3REQUIREKEY%
+               %UV3% float4 texcoord3 : TEXCOORD3%TEXCOORD3MOD%;
+               %TEXCOORD3REQUIRE% #endif
+
+               %VERTEXCOLORREQUIRE% #if %VERTEXCOLORREQUIREKEY%
+               %VERTEXCOLOR% float4 vertexColor : COLOR%VERTEXCOLORMOD%;
+               %VERTEXCOLORREQUIRE% #endif
+
+               %EXTRAV2F0REQUIRE% #if %EXTRAV2F0REQUIREKEY%
+               %EXTRAV2F0% float4 extraV2F0 : TEXCOORD5%EXTRAV2F0MOD%;
+               %EXTRAV2F0REQUIRE% endif
+
+               %EXTRAV2F1REQUIRE% #if %EXTRAV2F1REQUIREKEY%
+               %EXTRAV2F1% float4 extraV2F1 : TEXCOORD6%EXTRAV2F1MOD%;
+               %EXTRAV2F1REQUIRE% #endif
+
+               %EXTRAV2F2REQUIRE% #if %EXTRAV2F2REQUIREKEY%
+               %EXTRAV2F2% float4 extraV2F2 : TEXCOORD7%EXTRAV2F2MOD%;
+               %EXTRAV2F2REQUIRE% #endif
+
+               %EXTRAV2F3REQUIRE% #if %EXTRAV2F3REQUIREKEY%
+               %EXTRAV2F3% float4 extraV2F3 : TEXCOORD8%EXTRAV2F3MOD%;
+               %EXTRAV2F3REQUIRE% #endif
+
+               %EXTRAV2F4REQUIRE% #if %EXTRAV2F4REQUIREKEY%
+               %EXTRAV2F4% float4 extraV2F4 : TEXCOORD9%EXTRAV2F4MOD%;
+               %EXTRAV2F4REQUIRE% #endif
+
+               %EXTRAV2F5REQUIRE% #if %EXTRAV2F5REQUIREKEY%
+               %EXTRAV2F5% float4 extraV2F5 : TEXCOORD10%EXTRAV2F5MOD%;
+               %EXTRAV2F5REQUIRE% #endif
+
+               %EXTRAV2F6REQUIRE% #if %EXTRAV2F6REQUIREKEY%
+               %EXTRAV2F6% float4 extraV2F6 : TEXCOORD11%EXTRAV2F6MOD%;
+               %EXTRAV2F6REQUIRE% #endif
+
+               %EXTRAV2F7REQUIRE% #if %EXTRAV2F7REQUIREKEY%
+               %EXTRAV2F7% float4 extraV2F7 : TEXCOORD12%EXTRAV2F7MOD%;
+               %EXTRAV2F7REQUIRE% #endif
+
+               #if _HDRP && (_PASSMOTIONVECTOR || (_PASSFORWARD && defined(_WRITE_TRANSPARENT_MOTION_VECTOR)))
+                  float3 previousPositionOS : TEXCOORD13; // Contain previous transform position (in case of skinning for example)
+                  #if defined (_ADD_PRECOMPUTED_VELOCITY)
+                     float3 precomputedVelocity : TEXCOORD14;
+                  #endif
+               #endif
+
+               UNITY_VERTEX_INPUT_INSTANCE_ID
+               UNITY_VERTEX_OUTPUT_STEREO
+            };
+
+            struct ExtraV2F
+            {
+               float4 extraV2F0;
+               float4 extraV2F1;
+               float4 extraV2F2;
+               float4 extraV2F3;
+               float4 extraV2F4;
+               float4 extraV2F5;
+               float4 extraV2F6;
+               float4 extraV2F7;
+               Blackboard blackboard;
+               float4 time;
+            };
+
+
+            float3 WorldToTangentSpace(ShaderData d, float3 normal)
+            {
+               return mul(d.TBNMatrix, normal);
+            }
+
+            float3 TangentToWorldSpace(ShaderData d, float3 normal)
+            {
+               return mul(normal, d.TBNMatrix);
+            }
+
+            // in this case, make standard more like SRPs, because we can't fix
+            // unity_WorldToObject in HDRP, since it already does macro-fu there
+
+            #if _STANDARD
+               float3 TransformWorldToObject(float3 p) { return mul(unity_WorldToObject, float4(p, 1)); };
+               float3 TransformObjectToWorld(float3 p) { return mul(unity_ObjectToWorld, float4(p, 1)); };
+               float4 TransformWorldToObject(float4 p) { return mul(unity_WorldToObject, p); };
+               float4 TransformObjectToWorld(float4 p) { return mul(unity_ObjectToWorld, p); };
+               float4x4 GetWorldToObjectMatrix() { return unity_WorldToObject; }
+               float4x4 GetObjectToWorldMatrix() { return unity_ObjectToWorld; }
+               #if (defined(SHADER_API_D3D11) || defined(SHADER_API_XBOXONE) || defined(UNITY_COMPILER_HLSLCC) || defined(SHADER_API_PSSL) || (SHADER_TARGET_SURFACE_ANALYSIS && !SHADER_TARGET_SURFACE_ANALYSIS_MOJOSHADER))
+                 #define UNITY_SAMPLE_TEX2D_LOD(tex,coord, lod) tex.SampleLevel (sampler##tex,coord, lod)
+                 #define UNITY_SAMPLE_TEX2D_SAMPLER_LOD(tex,samplertex,coord, lod) tex.SampleLevel (sampler##samplertex,coord, lod)
+              #else
+                 #define UNITY_SAMPLE_TEX2D_LOD(tex,coord,lod) tex2D (tex,coord,0,lod)
+                 #define UNITY_SAMPLE_TEX2D_SAMPLER_LOD(tex,samplertex,coord,lod) tex2D (tex,coord,0,lod)
+              #endif
+
+               #undef UNITY_MATRIX_M
+               #undef UNITY_MATRIX_I_M
+               #undef UNITY_MATRIX_V
+               #undef UNITY_MATRIX_I_V
+               #undef UNITY_MATRIX_P
+               #undef UNITY_MATRIX_VP
+               #undef UNITY_MATRIX_MV
+               #undef UNITY_MATRIX_T_MV
+               #undef UNITY_MATRIX_IT_MV
+               #undef UNITY_MATRIX_MVP
+
+               #define UNITY_MATRIX_M     unity_ObjectToWorld
+               #define UNITY_MATRIX_I_M   unity_WorldToObject
+               #define UNITY_MATRIX_V     unity_MatrixV
+               #define UNITY_MATRIX_I_V   unity_MatrixInvV
+               #define UNITY_MATRIX_P     OptimizeProjectionMatrix(glstate_matrix_projection)
+               #define UNITY_MATRIX_VP    unity_MatrixVP
+               #define UNITY_MATRIX_MV    mul(UNITY_MATRIX_V, UNITY_MATRIX_M)
+               #define UNITY_MATRIX_T_MV  transpose(UNITY_MATRIX_MV)
+               #define UNITY_MATRIX_IT_MV transpose(mul(UNITY_MATRIX_I_M, UNITY_MATRIX_I_V))
+               #define UNITY_MATRIX_MVP   mul(UNITY_MATRIX_VP, UNITY_MATRIX_M)
+
+
+            #endif
+
+            float3 GetCameraWorldPosition()
+            {
+               #if _HDRP
+                  return GetCameraRelativePositionWS(_WorldSpaceCameraPos);
+               #else
+                  return _WorldSpaceCameraPos;
+               #endif
+            }
+
+            #if _GRABPASSUSED
+               #if _STANDARD
+                  TEXTURE2D(%GRABTEXTURE%);
+                  SAMPLER(sampler_%GRABTEXTURE%);
+               #endif
+
+               half3 GetSceneColor(float2 uv)
+               {
+                  #if _STANDARD
+                     return SAMPLE_TEXTURE2D(%GRABTEXTURE%, sampler_%GRABTEXTURE%, uv).rgb;
+                  #else
+                     return SHADERGRAPH_SAMPLE_SCENE_COLOR(uv);
+                  #endif
+               }
+            #endif
+
+
+      
+            #if _STANDARD
+               UNITY_DECLARE_DEPTH_TEXTURE(_CameraDepthTexture);
+               float GetSceneDepth(float2 uv) { return SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, uv); }
+               float GetLinear01Depth(float2 uv) { return Linear01Depth(GetSceneDepth(uv)); }
+               float GetLinearEyeDepth(float2 uv) { return LinearEyeDepth(GetSceneDepth(uv)); } 
+            #else
+               float GetSceneDepth(float2 uv) { return SHADERGRAPH_SAMPLE_SCENE_DEPTH(uv); }
+               float GetLinear01Depth(float2 uv) { return Linear01Depth(GetSceneDepth(uv), _ZBufferParams); }
+               float GetLinearEyeDepth(float2 uv) { return LinearEyeDepth(GetSceneDepth(uv), _ZBufferParams); } 
+            #endif
+
+            float3 GetWorldPositionFromDepthBuffer(float2 uv, float3 worldSpaceViewDir)
+            {
+               float eye = GetLinearEyeDepth(uv);
+               float3 camView = mul((float3x3)UNITY_MATRIX_M, transpose(mul(UNITY_MATRIX_I_M, UNITY_MATRIX_I_V)) [2].xyz);
+
+               float dt = dot(worldSpaceViewDir, camView);
+               float3 div = worldSpaceViewDir/dt;
+               float3 wpos = (eye * div) + GetCameraWorldPosition();
+               return wpos;
+            }
+
+            #if _HDRP
+            float3 ObjectToWorldSpacePosition(float3 pos)
+            {
+               return GetAbsolutePositionWS(TransformObjectToWorld(pos));
+            }
+            #else
+            float3 ObjectToWorldSpacePosition(float3 pos)
+            {
+               return TransformObjectToWorld(pos);
+            }
+            #endif
+
+            #if _STANDARD
+               UNITY_DECLARE_SCREENSPACE_TEXTURE(_CameraDepthNormalsTexture);
+               float3 GetSceneNormal(float2 uv, float3 worldSpaceViewDir)
+               {
+                  float4 depthNorms = UNITY_SAMPLE_SCREENSPACE_TEXTURE(_CameraDepthNormalsTexture, uv);
+                  float3 norms = DecodeViewNormalStereo(depthNorms);
+                  norms = mul((float3x3)UNITY_MATRIX_V, norms) * 0.5 + 0.5;
+                  return norms;
+               }
+            #elif _HDRP
+               float3 GetSceneNormal(float2 uv, float3 worldSpaceViewDir)
+               {
+                  NormalData nd;
+                  DecodeFromNormalBuffer(_ScreenSize.xy * uv, nd);
+                  return nd.normalWS;
+               }
+            #elif _URP
+               #if (SHADER_LIBRARY_VERSION_MAJOR >= 10)
+                  #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
+               #endif
+
+               float3 GetSceneNormal(float2 uv, float3 worldSpaceViewDir)
+               {
+                  #if (SHADER_LIBRARY_VERSION_MAJOR >= 10)
+                     return SampleSceneNormals(uv);
+                  #else
+                     float3 wpos = GetWorldPositionFromDepthBuffer(uv, worldSpaceViewDir);
+                     return normalize(-cross(ddx(wpos), ddy(wpos))) * 0.5 + 0.5;
+                  #endif
+
+                }
+             #endif
+
+             #if _HDRP
+
+               half3 UnpackNormalmapRGorAG(half4 packednormal)
+               {
+                     // This do the trick
+                  packednormal.x *= packednormal.w;
+
+                  half3 normal;
+                  normal.xy = packednormal.xy * 2 - 1;
+                  normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+                  return normal;
+               }
+               half3 UnpackNormal(half4 packednormal)
+               {
+                  #if defined(UNITY_NO_DXT5nm)
+                     return packednormal.xyz * 2 - 1;
+                  #else
+                     return UnpackNormalmapRGorAG(packednormal);
+                  #endif
+               }
+               #endif
+               #if _HDRP || _URP
+
+               half3 UnpackScaleNormal(half4 packednormal, half scale)
+               {
+                 #ifndef UNITY_NO_DXT5nm
+                   // Unpack normal as DXT5nm (1, y, 1, x) or BC5 (x, y, 0, 1)
+                   // Note neutral texture like "bump" is (0, 0, 1, 1) to work with both plain RGB normal and DXT5nm/BC5
+                   packednormal.x *= packednormal.w;
+                 #endif
+                   half3 normal;
+                   normal.xy = (packednormal.xy * 2 - 1) * scale;
+                   normal.z = sqrt(1 - saturate(dot(normal.xy, normal.xy)));
+                   return normal;
+               }	
+
+             #endif
+
+
+            void GetSun(out float3 lightDir, out float3 color)
+            {
+               lightDir = float3(0.5, 0.5, 0);
+               color = 1;
+               #if _HDRP
+                  if (_DirectionalLightCount > 0)
+                  {
+                     DirectionalLightData light = _DirectionalLightDatas[0];
+                     lightDir = -light.forward.xyz;
+                     color = light.color;
+                  }
+               #elif _STANDARD
+			         lightDir = normalize(_WorldSpaceLightPos0.xyz);
+                  color = _LightColor0.rgb;
+               #elif _URP
+	               Light light = GetMainLight();
+	               lightDir = light.direction;
+	               color = light.color;
+               #endif
+            }
+

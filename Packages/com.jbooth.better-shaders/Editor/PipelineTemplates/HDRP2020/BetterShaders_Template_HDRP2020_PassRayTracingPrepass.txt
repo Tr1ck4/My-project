@@ -1,0 +1,87 @@
+﻿        Pass
+        {
+            // based on HDLitPass.template
+            Name "Forward"
+            Tags
+                {
+                    "LightMode" = "RayTracingPrepass"
+                }
+
+            
+            // Render State
+                Cull Back
+                Blend One Zero
+                ZWrite On
+        
+
+            //-------------------------------------------------------------------------------------
+            // End Render Modes
+            //-------------------------------------------------------------------------------------
+        
+            HLSLPROGRAM
+        
+            #pragma target %SHADERTARGET%
+            #pragma only_renderers d3d11 playstation xboxone vulkan metal switch
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+
+
+            //#pragma shader_feature _ _SURFACE_TYPE_TRANSPARENT
+            //#pragma shader_feature_local _BLENDMODE_OFF _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            //#pragma shader_feature_local _ _ADD_PRECOMPUTED_VELOCITY
+            //#pragma shader_feature_local _ _TRANSPARENT_WRITES_MOTION_VEC
+            //#pragma shader_feature_local _ _ENABLE_FOG_ON_TRANSPARENT
+            //#pragma shader_feature_local _ _DISABLE_DECALS
+            //#pragma shader_feature_local _ _DISABLE_SSR
+            //#pragma shader_feature_local _ _DISABLE_SSR_TRANSPARENT
+            //#pragma shader_feature_local _REFRACTION_OFF _REFRACTION_PLANE _REFRACTION_SPHERE _REFRACTION_THIN
+            
+                
+        
+
+            #define SHADERPASS SHADERPASS_CONSTANT
+            #define RAYTRACING_SHADER_GRAPH_DEFAULT
+            #define _PASSRAYTRACINGPREPASS 1
+            
+            %DEFINES%
+
+            %PRAGMAS%
+
+            %HDRPINCLUDE%
+
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Debug/DebugDisplay.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Material.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/NormalSurfaceGradient.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/Lit.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/BuiltinUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/MaterialUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Decal/DecalUtilities.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Material/Lit/LitDecalData.hlsl"
+            #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderGraphFunctions.hlsl"
+
+    
+
+            %TEMPLATE_SHARED%
+
+            %CUSTOMCBUFFER%
+
+            %CUSTOMINSTANCEPROPS%
+
+            %CODE%
+
+            %SHADERDESC%
+
+            %VERT%
+
+            %TESSELLATION%
+
+            %HDRPSHARED%
+
+
+            void Frag(out float4 outColor : SV_Target0)
+            {
+                outColor = float4(1.0, 1.0, 1.0, 1.0);
+            }
+
+            ENDHLSL
+        }

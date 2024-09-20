@@ -1,0 +1,85 @@
+﻿
+
+         ShaderData CreateShaderData(VertexToPixel i
+                  #if NEED_FACING
+                     , bool facing
+                  #endif
+         )
+         {
+            ShaderData d = (ShaderData)0;
+            d.clipPos = i.pos;
+            d.worldSpacePosition = i.worldPos;
+
+            d.worldSpaceNormal = normalize(i.worldNormal);
+            d.worldSpaceTangent = normalize(i.worldTangent.xyz);
+            d.tangentSign = i.worldTangent.w;
+            float3 bitangent = cross(i.worldTangent.xyz, i.worldNormal) * d.tangentSign * -1;
+            
+
+            d.TBNMatrix = float3x3(d.worldSpaceTangent, bitangent, d.worldSpaceNormal);
+            d.worldSpaceViewDir = normalize(_WorldSpaceCameraPos - i.worldPos);
+
+            d.tangentSpaceViewDir = mul(d.TBNMatrix, d.worldSpaceViewDir);
+            %V2FUV0% d.texcoord0 = i.texcoord0;
+            %V2FUV1% d.texcoord1 = i.texcoord1;
+            %V2FUV2% d.texcoord2 = i.texcoord2;
+
+            %TEXCOORD3REQUIRE% #if %TEXCOORD3REQUIREKEY%
+            %V2FUV3% d.texcoord3 = i.texcoord3;
+            %TEXCOORD3REQUIRE% #endif
+
+            %VFACE% d.isFrontFace = facing;
+            %VERTEXCOLORREQUIRE% #if %VERTEXCOLORREQUIREKEY%
+            %V2FVERTEXCOLOR% d.vertexColor = i.vertexColor;
+            %VERTEXCOLORREQUIRE% #endif
+
+            // these rarely get used, so we back transform them. Usually will be stripped.
+            #if _HDRP
+                %LOCALSPACEPOSITION% d.localSpacePosition = mul(unity_WorldToObject, float4(GetCameraRelativePositionWS(i.worldPos), 1)).xyz;
+            #else
+                %LOCALSPACEPOSITION% d.localSpacePosition = mul(unity_WorldToObject, float4(i.worldPos, 1)).xyz;
+            #endif
+            %LOCALSPACENORMAL% d.localSpaceNormal = normalize(mul((float3x3)unity_WorldToObject, i.worldNormal));
+            %LOCALSPACETANGENT% d.localSpaceTangent = normalize(mul((float3x3)unity_WorldToObject, i.worldTangent.xyz));
+
+            %SCREENPOSREQUIRE% #if %SCREENPOSREQUIREKEY%
+            %SCREENPOS% d.screenPos = i.screenPos;
+            %SCREENPOS% d.screenUV = (i.screenPos.xy / i.screenPos.w);
+            %SCREENPOSREQUIRE% #endif
+
+
+            %EXTRAV2F0REQUIRE% #if %EXTRAV2F0REQUIREKEY%
+            %EXTRAV2F0% d.extraV2F0 = i.extraV2F0;
+            %EXTRAV2F0REQUIRE% #endif
+
+            %EXTRAV2F1REQUIRE% #if %EXTRAV2F1REQUIREKEY%
+            %EXTRAV2F1% d.extraV2F1 = i.extraV2F1;
+            %EXTRAV2F1REQUIRE% #endif
+
+            %EXTRAV2F2REQUIRE% #if %EXTRAV2F2REQUIREKEY%
+            %EXTRAV2F2% d.extraV2F2 = i.extraV2F2;
+            %EXTRAV2F2REQUIRE% #endif
+
+            %EXTRAV2F3REQUIRE% #if %EXTRAV2F3REQUIREKEY%
+            %EXTRAV2F3% d.extraV2F3 = i.extraV2F3;
+            %EXTRAV2F3REQUIRE% #endif
+
+            %EXTRAV2F4REQUIRE% #if %EXTRAV2F4REQUIREKEY%
+            %EXTRAV2F4% d.extraV2F4 = i.extraV2F4;
+            %EXTRAV2F4REQUIRE% #endif
+
+            %EXTRAV2F5REQUIRE% #if %EXTRAV2F5REQUIREKEY%
+            %EXTRAV2F5% d.extraV2F5 = i.extraV2F5;
+            %EXTRAV2F5REQUIRE% #endif
+
+            %EXTRAV2F6REQUIRE% #if %EXTRAV2F6REQUIREKEY%
+            %EXTRAV2F6% d.extraV2F6 = i.extraV2F6;
+            %EXTRAV2F6REQUIRE% #endif
+
+            %EXTRAV2F7REQUIRE% #if %EXTRAV2F7REQUIREKEY%
+            %EXTRAV2F7% d.extraV2F7 = i.extraV2F7;
+            %EXTRAV2F7REQUIRE% #endif
+
+            return d;
+         }
+         

@@ -72,7 +72,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
   - {fileID: 8300000, guid: 9f8a1e6741a342647b9c0055e1e0a7b8, type: 3}
-  impactSounds: []
+  impactSounds:
+  - {fileID: 8300000, guid: fd35f7e049af64047a03eeab57a6f547, type: 3}
   attackSoundScale: 0.25
   impactSoundScale: 1
 --- !u!1102 &-5463800095782288728

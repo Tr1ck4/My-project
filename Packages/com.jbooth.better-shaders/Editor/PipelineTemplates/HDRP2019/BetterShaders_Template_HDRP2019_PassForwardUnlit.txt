@@ -1,0 +1,206 @@
+﻿        Pass
+        {
+            Name "ForwardOnly"
+                Tags
+                {
+                    "LightMode" = "ForwardOnly"
+                }
+            
+            %FORWARDBASEBLEND%
+            
+            Stencil
+            {
+               WriteMask [_StencilWriteMask]
+               Ref [_StencilRef]
+               Comp Always
+               Pass Replace
+            }
+
+            %PASSFORWARD%
+        
+            //-------------------------------------------------------------------------------------
+            // End Render Modes
+            //-------------------------------------------------------------------------------------
+        
+            HLSLPROGRAM
+        
+            #pragma target %SHADERTARGET%
+            #pragma only_renderers d3d11 playstation xboxone vulkan metal switch
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+
+
+            //#pragma shader_feature _SURFACE_TYPE_TRANSPARENT
+            //#pragma shader_feature_local _ _BLENDMODE_ALPHA _BLENDMODE_ADD _BLENDMODE_PRE_MULTIPLY
+            //#pragma shader_feature_local _ALPHATEST_ON
+        
+            //#pragma shader_feature_local        _ENABLE_FOG_ON_TRANSPARENT
+                
+        
+
+            #define SHADERPASS SHADERPASS_FORWARD_UNLIT
+            #define RAYTRACING_SHADER_GRAPH_DEFAULT
+
+            #define SHADER_UNLIT
+            #define _PASSUNLIT 1
+
+            #if defined(_ENABLE_SHADOW_MATTE) && SHADERPASS == SHADERPASS_FORWARD_UNLIT
+            #define LIGHTLOOP_DISABLE_TILE_AND_CLUSTER
+            #define HAS_LIGHTLOOP
+            #endif
+
+            
+            
+            %DEFINES%
+
+            %PRAGMAS%
+
+            
+            
+
+
+            #if defined(_ENABLE_SHADOW_MATTE) && SHADERPASS == SHADERPASS_FORWARD_UNLIT
+                #define LIGHTLOOP_DISABLE_TILE_AND_CLUSTER
+                #define HAS_LIGHTLOOP
+                #define SHADOW_OPTIMIZE_REGISTER_USAGE 1
+        
+                #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonLighting.hlsl"
+                #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/Shadow/HDShadowContext.hlsl"
+                #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/HDShadow.hlsl"
+                #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/LightLoopDef.hlsl"
+                #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/PunctualLightCommon.hlsl"
+                #include "Packages/com.unity.render-pipelines.high-definition/Runtime/Lighting/LightLoop/HDShadowLoop.hlsl"
+            #endif
+
+            
+            %HDRPINCLUDE%
+
+            %TEMPLATE_SHARED%
+
+            CBUFFER_START(UnityPerMaterial)
+               float _StencilRef;
+               float _StencilWriteMask;
+               float _StencilRefDepth;
+               float _StencilWriteMaskDepth;
+               float _StencilRefMV;
+               float _StencilWriteMaskMV;
+               float _StencilRefDistortionVec;
+               float _StencilWriteMaskDistortionVec;
+               float _StencilWriteMaskGBuffer;
+               float _StencilRefGBuffer;
+               float _ZTestGBuffer;
+               float _RequireSplitLighting;
+               float _ReceivesSSR;
+               float _ZWrite;
+               float _TransparentSortPriority;
+               float _ZTestDepthEqualForOpaque;
+               float _ZTestTransparent;
+               float _TransparentBackfaceEnable;
+               float _AlphaCutoffEnable;
+               float _UseShadowThreshold;
+
+               %CBUFFER%
+
+            CBUFFER_END
+
+            %CUSTOMCBUFFER%
+
+            %CUSTOMINSTANCEPROPS%
+
+            %CODE%
+
+            %SHADERDESC%
+
+            %VERT%
+
+            %TESSELLATION%
+
+            %HDRPSHARED%
+
+
+
+         float4 Frag(VertexToPixel v2p
+            #if NEED_FACING
+            , bool facing : SV_IsFrontFace
+            #endif
+         ) : SV_Target
+         {
+             UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(v2p);
+             FragInputs input = BuildFragInputs(v2p);
+
+             // input.positionSS is SV_Position
+             PositionInputs posInput = GetPositionInput(input.positionSS.xy, _ScreenSize.zw, input.positionSS.z, input.positionSS.w, input.positionRWS);
+
+
+             float3 V = GetWorldSpaceNormalizeViewDir(input.positionRWS);
+             SurfaceData surfaceData;
+             BuiltinData builtinData;
+             Surface l;
+             ShaderData d;
+             GetSurfaceAndBuiltinData(v2p, input, V, posInput, surfaceData, builtinData, l, d
+               #if NEED_FACING
+                  , facing
+               #endif
+               );
+
+
+
+             // Not lit here (but emissive is allowed)
+             BSDFData bsdfData = ConvertSurfaceDataToBSDFData(input.positionSS.xy, surfaceData);
+
+             // Note: we must not access bsdfData in shader pass, but for unlit we make an exception and assume it should have a color field
+             float4 outColor = float4(l.Albedo + l.Emission * GetCurrentExposureMultiplier(), l.Alpha);
+             //float4 outColor = ApplyBlendMode(bsdfData.color + builtinData.emissiveColor * GetCurrentExposureMultiplier(), builtinData.opacity);
+             outColor = EvaluateAtmosphericScattering(posInput, V, outColor);
+
+         #ifdef DEBUG_DISPLAY
+             // Same code in ShaderPassForward.shader
+             // Reminder: _DebugViewMaterialArray[i]
+             //   i==0 -> the size used in the buffer
+             //   i>0  -> the index used (0 value means nothing)
+             // The index stored in this buffer could either be
+             //   - a gBufferIndex (always stored in _DebugViewMaterialArray[1] as only one supported)
+             //   - a property index which is different for each kind of material even if reflecting the same thing (see MaterialSharedProperty)
+             int bufferSize = int(_DebugViewMaterialArray[0]);
+             // Loop through the whole buffer
+             // Works because GetSurfaceDataDebug will do nothing if the index is not a known one
+             for (int index = 1; index <= bufferSize; index++)
+             {
+                 int indexMaterialProperty = int(_DebugViewMaterialArray[index]);
+                 if (indexMaterialProperty != 0)
+                 {
+                     float3 result = float3(1.0, 0.0, 1.0);
+                     bool needLinearToSRGB = false;
+
+                     GetPropertiesDataDebug(indexMaterialProperty, result, needLinearToSRGB);
+                     GetVaryingsDataDebug(indexMaterialProperty, input, result, needLinearToSRGB);
+                     GetBuiltinDataDebug(indexMaterialProperty, builtinData, result, needLinearToSRGB);
+                     GetSurfaceDataDebug(indexMaterialProperty, surfaceData, result, needLinearToSRGB);
+                     GetBSDFDataDebug(indexMaterialProperty, bsdfData, result, needLinearToSRGB);
+            
+                     // TEMP!
+                     // For now, the final blit in the backbuffer performs an sRGB write
+                     // So in the meantime we apply the inverse transform to linear data to compensate.
+                     if (!needLinearToSRGB)
+                         result = SRGBToLinear(max(0, result));
+
+                     outColor = float4(result, 1.0);
+                 }
+             }
+
+             if (_DebugFullScreenMode == FULLSCREENDEBUGMODE_TRANSPARENCY_OVERDRAW)
+             {
+                 float4 result = _DebugTransparencyOverdrawWeight * float4(TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_COST, TRANSPARENCY_OVERDRAW_A);
+                 outColor = result;
+             }
+
+         #endif
+    
+             return outColor;
+         }
+
+
+
+
+         ENDHLSL
+      }

@@ -1,0 +1,77 @@
+﻿
+         #if _PASSSHADOW
+            float3 _LightDirection;
+         #endif
+
+         // vertex shader
+         VertexToPixel Vert (VertexData v)
+         {
+           
+           VertexToPixel o = (VertexToPixel)0;
+
+           UNITY_SETUP_INSTANCE_ID(v);
+           UNITY_TRANSFER_INSTANCE_ID(v, o);
+           UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+
+#if !_TESSELLATION_ON
+           ChainModifyVertex(v, o, _Time);
+#endif
+
+           %V2FUV0% o.texcoord0 = v.texcoord0;
+           %V2FUV1% o.texcoord1 = v.texcoord1;
+           %V2FUV2% o.texcoord2 = v.texcoord2;
+
+           %TEXCOORD3REQUIRE% #if %TEXCOORD3REQUIREKEY%
+           %V2FUV3% o.texcoord3 = v.texcoord3;
+           %TEXCOORD3REQUIRE% #endif
+
+           %VERTEXCOLORREQUIRE% #if %VERTEXCOLORREQUIREKEY%
+           %V2FVERTEXCOLOR% o.vertexColor = v.vertexColor;
+           %VERTEXCOLORREQUIRE% #endif
+           
+           VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
+           o.worldPos = TransformObjectToWorld(v.vertex.xyz);
+           o.worldNormal = TransformObjectToWorldNormal(v.normal);
+           o.worldTangent = float4(TransformObjectToWorldDir(v.tangent.xyz), v.tangent.w);
+
+
+          #if _PASSSHADOW
+              // Define shadow pass specific clip position for Universal
+              o.pos = TransformWorldToHClip(ApplyShadowBias(o.worldPos, o.worldNormal, _LightDirection));
+              #if UNITY_REVERSED_Z
+                  o.pos.z = min(o.pos.z, o.pos.w * UNITY_NEAR_CLIP_VALUE);
+              #else
+                  o.pos.z = max(o.pos.z, o.pos.w * UNITY_NEAR_CLIP_VALUE);
+              #endif
+          #elif _PASSMETA
+              o.pos = MetaVertexPosition(float4(v.vertex.xyz, 0), v.texcoord1, v.texcoord2, unity_LightmapST, unity_DynamicLightmapST);
+          #else
+              o.pos = TransformWorldToHClip(o.worldPos);
+          #endif
+
+          %SCREENPOSREQUIRE% #if %SCREENPOSREQUIREKEY%
+          %SCREENPOS% o.screenPos = ComputeScreenPos(o.pos, _ProjectionParams.x);
+          %SCREENPOSREQUIRE% #endif
+
+          #if _PASSFORWARD
+              OUTPUT_LIGHTMAP_UV(v.texcoord1, unity_LightmapST, o.lightmapUV);
+              OUTPUT_SH(o.worldNormal, o.sh);
+          #endif
+
+          #ifdef VARYINGS_NEED_FOG_AND_VERTEX_LIGHT
+              #if _BAKEDLIT
+                 half3 vertexLight = 0;
+              #else
+                 half3 vertexLight = VertexLighting(o.worldPos, o.worldNormal);
+              #endif
+              half fogFactor = ComputeFogFactor(o.pos.z);
+              o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+          #endif
+
+          #ifdef _MAIN_LIGHT_SHADOWS
+              o.shadowCoord = GetShadowCoord(vertexInput);
+          #endif
+
+           return o;
+         }

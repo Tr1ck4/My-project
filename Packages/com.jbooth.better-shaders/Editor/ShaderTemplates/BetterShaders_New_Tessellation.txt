@@ -1,0 +1,61 @@
+﻿
+BEGIN_OPTIONS
+   Tessellation "Distance"
+END_OPTIONS
+
+BEGIN_PROPERTIES
+   [NoScaleOffset]_Albedo ("Albedo", 2D) = "white" {}
+   [Normal][NoScaleOffset]_Normal ("Normal", 2D) = "bump" {}
+   [NoScaleOffset]_Height ("Height Map", 2D) = "black" {}
+   _DisplacementAmount("Displacement Amount", Range(0,2)) = 0.5
+   _DisplacementMipBias("Displacement Mip Bias", Range(0,6)) = 2
+   _TessSubdiv("Tessellation Subdivisions", Range(2, 24)) = 8
+   _TessMinDistance("Tessellation Min Distance", Float) = 0
+   _TessMaxDistance("Tessellation Max Distance", Float) = 35
+
+END_PROPERTIES
+
+
+BEGIN_CBUFFER
+   float _DisplacementAmount;
+   float _DisplacementMipBias;
+   float _TessSubdiv;
+   float _TessMinDistance;
+   float _TessMaxDistance;
+END_CBUFFER
+
+BEGIN_CODE
+
+   TEXTURE2D(_Albedo);
+   SAMPLER(sampler_Albedo);
+   TEXTURE2D(_Normal);
+   SAMPLER(sampler_Normal);
+   TEXTURE2D(_Height);
+   SAMPLER(sampler_Height);
+
+   // (optional)modify the vertex post tessellation
+   void ModifyTessellatedVertex(inout VertexData v, inout ExtraV2F d)
+   {
+      v.vertex.xyz = v.vertex.xyz + v.normal * SAMPLE_TEXTURE2D_LOD(_Height, sampler_Height, v.texcoord0.xy, _DisplacementMipBias).g * _DisplacementAmount;
+   }
+
+   // (optional) if you are using tessellation and displacement, you can return
+   // the tessellation distance and subdivision here.
+   // if using distance tessellation, it's MinDistance, MaxDistance, MaxSubdiv
+   // in edge tessellation, it's EdgeLength, MaxSubdiv, and z is unused
+   float3 GetTessFactors ()
+   {
+      // return float3(_TessEdgeLength, _TessSubdiv, 0); // if using edge length
+      return float3(_TessMinDistance, _TessMaxDistance, _TessSubdiv);
+   }
+
+   void SurfaceFunction(inout Surface o, ShaderData d)
+   {
+      half4 c = SAMPLE_TEXTURE2D(_Albedo, sampler_Albedo, d.texcoord0.xy);
+      o.Albedo = c.rgb;
+      o.Alpha = c.a;
+      o.Normal = UnpackNormal(SAMPLE_TEXTURE2D(_Normal, sampler_Normal, d.texcoord0.xy));
+   }
+
+END_CODE
+
