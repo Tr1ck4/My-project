@@ -10,17 +10,35 @@ public class ZombieCheck : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(CheckForZombiesPeriodically());
+        StartCoroutine(CheckForMutantPeriodically());
     }
 
-    IEnumerator CheckForZombiesPeriodically()
+    //IEnumerator CheckForZombiesPeriodically()
+    //{
+    //    while (true)
+    //    {
+    //        yield return new WaitForSeconds(checkInterval);
+
+    //        GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
+    //        if (zombies.Length == 0)
+    //        {
+    //            RigidbodyFirstPersonController controller = GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>();
+    //            controller.Die();
+    //            // Load the main scene
+    //            SceneManager.LoadScene(mainSceneName);
+    //            yield break;
+    //        }
+    //    }
+    //}
+
+    IEnumerator CheckForMutantPeriodically()
     {
         while (true)
         {
             yield return new WaitForSeconds(checkInterval);
 
-            GameObject[] zombies = GameObject.FindGameObjectsWithTag("Zombie");
-            if (zombies.Length == 0)
+            GameObject mutant = GameObject.Find("Mutant");
+            if (mutant == null)
             {
                 RigidbodyFirstPersonController controller = GameObject.Find("Player").GetComponent<RigidbodyFirstPersonController>();
                 controller.Die();
