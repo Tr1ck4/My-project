@@ -154,7 +154,7 @@ public class Player : Object
 
             // Get the surface tag by searching the hierarchy
             string tag = GetSurfaceTag(hit.collider.transform);
-            //Debug.Log("Footstep raycast name: " + hit.collider.name);
+            Debug.Log("Footstep raycast name: " + tag);
             //Debug.Log("Footstep raycast tag: " + hit.collider.tag);
 
             if (tag == "Rock")
@@ -257,7 +257,7 @@ public class Player : Object
     }
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log(other.gameObject.tag);
+    //    Debug.Log(other.gameObject.tag);
     //    Debug.Log("Coliding with tag " + other.gameObject.tag);
     //    Debug.Log("Coliding with object " + other.gameObject.name);
         if (other.gameObject.tag == "AmmoBox"){
